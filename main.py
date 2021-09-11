@@ -1,5 +1,18 @@
+from mapgen import *
+import pygame
+from pygame import *
+
+WIN = pygame.display.set_mode((1920, 1080))
+WIN.fill((149, 149, 149))
+
 def main() -> None:
-    pass
+    map : Map = Map(50, 180)
+
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
 
 
 if __name__ == "__main__":
