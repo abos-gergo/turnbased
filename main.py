@@ -6,7 +6,7 @@ WIN = pygame.display.set_mode((1920, 1080))
 WIN.fill((149, 149, 149))
 
 def main() -> None:
-    map : Map = Map(50, 180)
+    map : Map = Map(50, 400)
 
     run = True
     while run:
