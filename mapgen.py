@@ -16,7 +16,7 @@ class Tile:
         neighborspos : List[tuple] = []
         neighbors : List[bool] = [0, 0, 0, 0]
         for neighbor in Map.tiles:
-            if engine.Distance(self, neighbor) <= 1:
+            if engine.Distance(self, neighbor) == 1:
                 if neighbor.y < self.y: # NE
                     neighbors[0] = 1
                 elif neighbor.x > self.x: #SE
@@ -41,37 +41,58 @@ class Tile:
         self.neighbors = neighborspos
 
     def getTileType(self) -> str:
-        for tile in Map.tiles:
-            string : str = ''
-            spaces = 0
-            for space in self.neighbors:
-                if space == False:
-                    spaces += 1
-            if spaces == 1:
-                pass
+        string : str = ''
+        neighborscount = 0
+        neighbors : List[bool] = [0, 0, 0, 0]
+        for neighbor in Map.tiles:
+            if engine.Distance(self, neighbor) == 1:
+                if neighbor.y < self.y: # NE
+                    neighbors[0] = 1
+                elif neighbor.x > self.x: #SE
+                    neighbors[1] = 1
+                elif neighbor.y > self.y: #SW
+                    neighbors[2] = 1
+                elif neighbor.x < self.x: #NW
+                    neighbors[3] = 1
+        for neighbor in neighbors:
+            if neighbor == 1:
+                neighborscount += 1
+        if neighborscount == 1:
+            if neighbors[0] == 1:
+                string = 'S_NE'
+            if neighbors[1] == 1:
+                string = 'W_SE'
+            if neighbors[2] == 1:
+                string = 'E_SW'
+            if neighbors[3] == 1:
+                string = 'S_NW'
 
-            elif spaces == 2:
-                if tile.neighbors[0] == 0 and tile.neighbors[1] == 0:
-                    string = 'W'
-                elif tile.neighbors[0] == 0 and tile.neighbors[3] == 0:
-                    string = 'S'
-                elif tile.neighbors[2] == 0 and tile.neighbors[3] == 0:
-                    string = 'E'
-                elif tile.neighbors[2] == 0 and tile.neighbors[1] == 0:
-                    string = 'N'
+        elif neighborscount == 2:
+            if neighbors[0] == 0 and neighbors[1] == 0:
+                string = 'E'
+            elif neighbors[0] == 0 and neighbors[3] == 0:
+                string = 'N'
+            elif neighbors[2] == 0 and neighbors[3] == 0:
+                string = 'W'
+            elif neighbors[2] == 0 and neighbors[1] == 0:
+                string = 'S'
+            elif neighbors[0] == 0 and neighbors[2] == 0:
+                string = 'SE_NW'
+            elif neighbors[1] == 0 and neighbors[3] == 0:
+                string = 'NE_SW'
 
-            elif spaces == 3:
-                if tile.neighbors[0]  == 0 and tile.neighbors[1]  == 0 and tile.neighbors[2] == 0:
-                    string = 'NW'
-                elif tile.neighbors[1]  == 0 and tile.neighbors[2]  == 0 and tile.neighbors[3] == 0:
-                    string = 'NE'
-                elif tile.neighbors[2]  == 0 and tile.neighbors[3]  == 0 and tile.neighbors[0] == 0:
-                    string = 'SE'
-                elif tile.neighbors[3]  == 0 and tile.neighbors[0]  == 0 and tile.neighbors[1] == 0:
-                    string = 'SW'
+        elif neighborscount == 3:
+            if neighbors[0]  == 1 and neighbors[1]  == 1 and neighbors[2] == 1:
+                string = 'NW'
+            elif neighbors[1]  == 1 and neighbors[2]  == 1 and neighbors[3] == 1:
+                string = 'NE'
+            elif neighbors[2]  == 1 and neighbors[3]  == 1 and neighbors[0] == 1:
+                string = 'SE'
+            elif neighbors[3]  == 1 and neighbors[0]  == 1 and neighbors[1] == 1:
+                string = 'SW'
 
-            elif spaces == 4:
-                string = 'M'
+        elif neighborscount == 4:
+            string = 'M'
 
         return string
 
@@ -86,7 +107,7 @@ class Map:
         Map.generateTiles(self)
 
     def generateTiles(self):
-        Map.tiles.append(Tile(0 + self.maxsize / 2, 0 + self.maxsize / 2, 0))
+        Map.tiles.append(Tile(0, 0, 0))
         freespaces : List[tuple] = []
         placedtiles : int = 1
         while placedtiles != self.tilecount:
@@ -96,10 +117,11 @@ class Map:
                 for freespace in tile.neighbors:
                     freespaces.append(freespace)
             freespace = freespaces[random.randint(0, freespaces.__len__() - 1)]
-            if freespace[0] <= 0 or freespace[0] > self.maxsize or freespace[1] <= 0 or freespace[1] > self.maxsize:
+            if freespace[0] < -self.maxsize / 2 or freespace[0] >= self.maxsize / 2 or freespace[1] < -self.maxsize / 2 or freespace[1] >= self.maxsize / 2:
                 continue
             Map.tiles.append(Tile(freespace[0], freespace[1], 0))
             placedtiles += 1
+
         temptiles : List[Tile] = list(Map.tiles)
         row : List[Tile] = []
         lowx = temptiles[0].x
@@ -142,10 +164,14 @@ class Map:
 
             for tile in row:
                 if tile.y == lowy:
-                    pos : tuple = (944 + (tile.x - 1) * 32 - (tile.y - 1) * 32, 529 + (tile.x - 1) * 16 + (tile.y - 1) * 16)
-                    print(f'Image at: {(tile.x, tile.y)}')
-                    main.WIN.blit(pygame.image.load('Assets/Map/Test.png'), pos)
+                    pos : tuple = (944 + (tile.x) * 32 - (tile.y) * 32, 529 + (tile.x) * 16 + (tile.y) * 16)
+                    tiletype : str = tile.getTileType()
+                    if (tile.x, tile.y) == (0, 0):
+                        main.WIN.blit(pygame.image.load('Assets/Map/Test.png'), pos)
+                    elif tiletype.__len__() != 0:
+                        main.WIN.blit(pygame.image.load('Assets/Map/' + tiletype + '_Tile.png'), pos)
+                    else:
+                        main.WIN.blit(pygame.image.load('Assets/Map/Test.png'), pos)
                     pygame.display.update()
                     row.remove(tile)
                     temptiles.remove(tile)
-            

@@ -2,11 +2,11 @@ from mapgen import *
 import pygame
 from pygame import *
 
-WIN = pygame.display.set_mode((1920, 900))
-WIN.fill((255, 255, 255))
+WIN = pygame.display.set_mode((1920, 1080))
+WIN.fill((149, 149, 149))
 
 def main() -> None:
-    map : Map = Map(18, 100)
+    map : Map = Map(50, 180)
 
     run = True
     while run:
