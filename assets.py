@@ -1,5 +1,6 @@
 import pygame
 
+
 class Sprites:
     N_Tile = pygame.image.load("Assets/Map/N_Tile.png")
     NE_Tile = pygame.image.load("Assets/Map/NE_Tile.png")
