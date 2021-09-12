@@ -1,5 +1,7 @@
+import m_click_det
 from mapgen import *
 import pygame
+from m_click_det import *
 from pygame import *
 import engine
 
@@ -15,6 +17,7 @@ def main() -> None:
     pos: tuple(int) = (0, 0)
     while run:
         clock.tick(60)
+        m_click_det.mouse_click.tile_detection(mouse_click())
         pos = engine.MoveTowards(pos, (1820, 980), 20)
         print(pos)
         for event in pygame.event.get():
