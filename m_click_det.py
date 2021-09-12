@@ -9,6 +9,7 @@ class mouse_click:
         self.tile_pos = []
         self.chosen_tile_pos = []
         self.rect_offset = 5
+        self.tile = mapgen.Map.tiles[0]
 
     def input(self):
         for event in pygame.event.get():
@@ -43,6 +44,6 @@ class mouse_click:
                 and self.input()
             ):  # mivel nem négyzet hanem rombusz, nem tudtam tökéletesen megírni, hogy pontosan érzékelje  aszéleket, így a rombuszok legszélén nem érzékeli a kattintást. Minden tileon egy (64-offset*2) * (32-offset*2) téglalapon érzékel csak
                 self.chosen_tile_pos = list(self.tile_pos)
-                print(self.chosen_tile_pos)
+                self.tile = tile
 
-        return self.chosen_tile_pos
+        return self.tile
