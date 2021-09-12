@@ -19,7 +19,7 @@ def main() -> None:
     pos: tuple(int) = (0, 0)
     while run:
         clock.tick(60)
-        # m_click_det.mouse_click.tile_detection(mouse_click())
+        m_click_det.mouse_click.tile_detection(mouse_click())
         pos = engine.MoveTowards(pos, (1820, 980), 20)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
