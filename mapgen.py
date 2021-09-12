@@ -7,10 +7,8 @@ import pygame
 
 
 class Tile:
-    def __init__(self, x: int, y: int, z: int) -> None:
-        self.x: int = x
-        self.y: int = y
-        self.z: int = z
+    def __init__(self, pos:tuple) -> None:
+        self.x, self.y, self.z = pos
         self.neighbors: List[tuple] = []
 
     def getNeighbors(self, map):
@@ -109,7 +107,7 @@ class Map:
         Map.generateTiles(self)
 
     def generateTiles(self):
-        Map.tiles.append(Tile(0, 0, 0))
+        Map.tiles.append(Tile((0, 0, 0)))
         freespaces: List[tuple] = []
         placedtiles: int = 1
         while placedtiles != self.tilecount:
@@ -126,9 +124,12 @@ class Map:
                 or freespace[1] >= self.maxsize / 2
             ):
                 continue
-            Map.tiles.append(Tile(freespace[0], freespace[1], 0))
+            Map.tiles.append(Tile((freespace[0], freespace[1], 0)))
             placedtiles += 1
 
+        Map.renderTiles()
+
+    def renderTiles():
         temptiles: List[Tile] = list(Map.tiles)
         row: List[Tile] = []
         lowx = temptiles[0].x
@@ -185,6 +186,5 @@ class Map:
                         )
                     else:
                         main.WIN.blit(pygame.image.load("Assets/Map/Test.png"), pos)
-                    pygame.display.update()
                     row.remove(tile)
                     temptiles.remove(tile)

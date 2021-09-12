@@ -22,6 +22,7 @@ def main() -> None:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+        pygame.display.update()
 
 
 if __name__ == "__main__":
