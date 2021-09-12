@@ -8,7 +8,7 @@ WIN = pygame.display.set_mode((1920, 900))
 WIN.fill((255, 255, 255))
 
 def main() -> None:
-    map : Map = Map(10, 100)
+    map : Map = Map(18, 100)
 
     run = True
     while run:
