@@ -4,15 +4,16 @@ import numpy as np
 import pygame
 
 
-
 def Distance(tile1, tile2) -> int:
     distx = abs(tile1.x - tile2.x)
     disty = abs(tile1.y - tile2.y)
     return distx + disty
 
 
-def MoveTowards(start: tuple, target: tuple, speed: float) -> tuple: # Returns x and y value, both are whole numbers
-    dest : List = []
+def MoveTowards(
+    start: tuple, target: tuple, speed: float
+) -> tuple:  # Returns x and y value, both are whole numbers
+    dest: List = []
     if start != target:
         startvector = pygame.Vector2(start)
         targetvector = pygame.Vector2(target)

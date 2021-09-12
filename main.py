@@ -10,7 +10,7 @@ WIN.fill((149, 149, 149))
 
 
 def main() -> None:
-    map : Map = Map(50, 400)
+    map: Map = Map(50, 400)
 
     clock = pygame.time.Clock()
     run = True
@@ -19,7 +19,6 @@ def main() -> None:
         clock.tick(60)
         m_click_det.mouse_click.tile_detection(mouse_click())
         pos = engine.MoveTowards(pos, (1820, 980), 20)
-        print(pos)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
