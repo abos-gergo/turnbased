@@ -4,24 +4,12 @@ from pygame import *
 
 class mouse_click:
     def __init__(self):
-        self.left_m_button_get_pressed = False
         self.mouse_pos_ = []
         self.tile_pos = []
         self.chosen_tile_pos = []
         self.rect_offset = 5
         self.tile = mapgen.Map.tiles[0]
 
-    def input(self):
-        for event in pygame.event.get():
-            if event.type == MOUSEBUTTONDOWN:
-                if pygame.mouse.get_pressed(3):
-                    self.left_m_button_get_pressed = True
-
-            elif event.type == MOUSEBUTTONUP:
-                if pygame.mouse.get_pressed(3):
-                    self.left_m_button_get_pressed = False
-
-        return self.left_m_button_get_pressed
 
     def mouse_pos(self):
         self.mouse_pos_ = pygame.mouse.get_pos()
@@ -41,9 +29,8 @@ class mouse_click:
                 and self.tile_pos[0] + self.rect_offset < self.mouse_pos()[0]
                 and self.tile_pos[1] + 32 - self.rect_offset > self.mouse_pos()[1]
                 and self.tile_pos[1] + self.rect_offset < self.mouse_pos()[1]
-                and self.input()
             ):  # mivel nem négyzet hanem rombusz, nem tudtam tökéletesen megírni, hogy pontosan érzékelje  aszéleket, így a rombuszok legszélén nem érzékeli a kattintást. Minden tileon egy (64-offset*2) * (32-offset*2) téglalapon érzékel csak
                 self.chosen_tile_pos = list(self.tile_pos)
                 self.tile = tile
-
+        print(self.tile)
         return self.tile
