@@ -7,9 +7,10 @@ import pygame
 
 
 class Tile:
-    def __init__(self, pos:tuple) -> None:
+    def __init__(self, pos: tuple) -> None:
         self.x, self.y, self.z = pos
         self.neighbors: List[tuple] = []
+        self.imgx, self.imgy = (64, 32)
 
     def getNeighbors(self, map):
         neighborspos: List[tuple] = []
@@ -136,7 +137,12 @@ class Map:
         lowy = temptiles[0].y
         highx = temptiles[0].x
         highy = temptiles[0].y
+        lowz = temptiles[0].z
+        layer: List = []
         for tile in temptiles:
+            if tile.z < lowz:
+                layer.append(tile)
+        for tile in layer:
             if tile.x < lowx:
                 lowx = tile.x
             elif tile.x > highx:
@@ -174,17 +180,18 @@ class Map:
                 if tile.y == lowy:
                     pos: tuple = (
                         944 + (tile.x) * 32 - (tile.y) * 32,
-                        529 + (tile.x) * 16 + (tile.y) * 16,
+                        529 + (tile.x) * 16 + (tile.y) * 16 + tile.z * 32,
                     )
-                    tiletype: str = tile.getTileType()
-                    if (tile.x, tile.y) == (0, 0):
-                        main.WIN.blit(pygame.image.load("Assets/Map/Test.png"), pos)
-                    elif tiletype.__len__() != 0:
-                        main.WIN.blit(
-                            pygame.image.load("Assets/Map/" + tiletype + "_Tile.png"),
-                            pos,
-                        )
-                    else:
-                        main.WIN.blit(pygame.image.load("Assets/Map/Test.png"), pos)
+                    if(type(tile) == Tile):
+                        tiletype: str = tile.getTileType()
+                        if (tile.x, tile.y) == (0, 0):
+                            main.WIN.blit(pygame.image.load("Assets/Map/Test.png"), pos)
+                        elif tiletype.__len__() != 0:
+                            main.WIN.blit(
+                                pygame.image.load("Assets/Map/" + tiletype + "_Tile.png"),
+                                pos,
+                            )
+                        else:
+                            main.WIN.blit(pygame.image.load("Assets/Map/Test.png"), pos)
                     row.remove(tile)
                     temptiles.remove(tile)
