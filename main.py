@@ -8,7 +8,8 @@ WIN.fill((149, 149, 149))
 
 
 def main() -> None:
-    map: Map = Map(50, 180)
+    map : Map = Map(50, 180)
+
     clock = pygame.time.Clock()
     run = True
     pos: tuple(int) = (0, 0)
