@@ -15,16 +15,15 @@ class Tile:
     def getNeighbors(self):
         neighborspos: List[tuple] = []
         neighbors: List[bool] = [0, 0, 0, 0]
-        for neighbor in Map.tiles:
-            if engine.tileDistance(self, neighbor) == 1:
-                if neighbor.y < self.y:  # NE
-                    neighbors[0] = 1
-                elif neighbor.x > self.x:  # SE
-                    neighbors[1] = 1
-                elif neighbor.y > self.y:  # SW
-                    neighbors[2] = 1
-                elif neighbor.x < self.x:  # NW
-                    neighbors[3] = 1
+        if Map.tile_matrix[self.y - 1][self.x]:
+            neighbors[0] = 1
+        if Map.tile_matrix[self.y][self.x + 1]:
+            neighbors[1] = 1
+        if Map.tile_matrix[self.y + 1][self.x]:
+            neighbors[2] = 1
+        if Map.tile_matrix[self.y][self.x - 1]:
+            neighbors[3] = 1
+
         for i, v in enumerate(neighbors):
             if i == 0 and v == 0:
                 pos = (self.x, self.y - 1)
