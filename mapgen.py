@@ -12,7 +12,7 @@ class Tile:
         self.neighbors: List[tuple] = []
         self.imgx, self.imgy = (64, 32)
 
-    def getNeighbors(self, map):
+    def getNeighbors(self):
         neighborspos: List[tuple] = []
         neighbors: List[bool] = [0, 0, 0, 0]
         for neighbor in Map.tiles:
@@ -41,64 +41,65 @@ class Tile:
         self.neighbors = neighborspos
 
     def getTileType(self) -> str:
-        string: str = ""
         neighborscount = 0
         neighbors: List[bool] = [0, 0, 0, 0]
-        for neighbor in Map.tiles:
-            if engine.tileDistance(self, neighbor) == 1:
-                if neighbor.y < self.y:  # NE
-                    neighbors[0] = 1
-                elif neighbor.x > self.x:  # SE
-                    neighbors[1] = 1
-                elif neighbor.y > self.y:  # SW
-                    neighbors[2] = 1
-                elif neighbor.x < self.x:  # NW
-                    neighbors[3] = 1
-        for neighbor in neighbors:
-            if neighbor == 1:
-                neighborscount += 1
+        if Map.tile_matrix[self.y - 1][self.x]:
+            neighbors[0] = 1
+            neighborscount += 1
+        if Map.tile_matrix[self.y][self.x + 1]:
+            neighbors[1] = 1
+            neighborscount += 1
+        if Map.tile_matrix[self.y + 1][self.x]:
+            neighbors[2] = 1
+            neighborscount += 1
+        if Map.tile_matrix[self.y][self.x - 1]:
+            neighbors[3] = 1
+            neighborscount += 1
+
+
         if neighborscount == 1:
             if neighbors[0] == 1:
-                string = "S_NE"
+                return "S_NE"
             if neighbors[1] == 1:
-                string = "W_SE"
+                return "W_SE"
             if neighbors[2] == 1:
-                string = "E_SW"
+                return "E_SW"
             if neighbors[3] == 1:
-                string = "S_NW"
+                return "S_NW"
 
         elif neighborscount == 2:
             if neighbors[0] == 0 and neighbors[1] == 0:
-                string = "E"
+                return "E"
             elif neighbors[0] == 0 and neighbors[3] == 0:
-                string = "N"
+                return "N"
             elif neighbors[2] == 0 and neighbors[3] == 0:
-                string = "W"
+                return "W"
             elif neighbors[2] == 0 and neighbors[1] == 0:
-                string = "S"
+                return "S"
             elif neighbors[0] == 0 and neighbors[2] == 0:
-                string = "SE_NW"
+                return "SE_NW"
             elif neighbors[1] == 0 and neighbors[3] == 0:
-                string = "NE_SW"
+                return "NE_SW"
 
         elif neighborscount == 3:
             if neighbors[0] == 1 and neighbors[1] == 1 and neighbors[2] == 1:
-                string = "NW"
+                return "NW"
             elif neighbors[1] == 1 and neighbors[2] == 1 and neighbors[3] == 1:
-                string = "NE"
+                return "NE"
             elif neighbors[2] == 1 and neighbors[3] == 1 and neighbors[0] == 1:
-                string = "SE"
+                return "SE"
             elif neighbors[3] == 1 and neighbors[0] == 1 and neighbors[1] == 1:
-                string = "SW"
+                return "SW"
 
         elif neighborscount == 4:
-            string = "M"
+            return "M"
 
-        return string
+        return "M"
 
 
 class Map:
     tiles: List = []
+    tile_matrix: List[List] = []
     maxsize: int
     tilecount: int
 
@@ -108,17 +109,22 @@ class Map:
 
     def generateTiles(self, scale):
         file = numpy.load("map.npy", 'r', 'bytes')
+        matrix_row: List[List] = []
         for y, row in enumerate(file):
+            matrix_row.clear()
             for x, tile in enumerate(row):
                 tile = round(float(tile))
                 if tile:
-                    Map.tiles.append(Tile((round(float(x)) - scale / 2,round(float(y)) - scale / 2, 0)))
+                    Map.tiles.append(Tile((int(round(float(x))), int(round(float(y))), 0)))
+                matrix_row.append(tile)
+            Map.tile_matrix.append(list(matrix_row))
+        print(Map.tile_matrix)
 
     def renderTiles():
         for tile in Map.tiles:
             pos: List = [
                 944 + (tile.x) * 32 - (tile.y) * 32,
-                529 + (tile.x) * 16 + (tile.y) * 16 - tile.z * 32,
+                100 + (tile.x) * 16 + (tile.y) * 16 - tile.z * 32,
             ]
             if type(tile) == Tile:
                 tiletype: str = tile.getTileType()
