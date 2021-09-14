@@ -1,7 +1,7 @@
 from player import Player
 from typing import List
+import numpy
 import engine
-import random
 import main
 import pygame
 
@@ -105,94 +105,27 @@ class Map:
     def __init__(self, maxsize: int, tilecount: int) -> None:
         self.maxsize = maxsize
         self.tilecount = tilecount
-        Map.generateTiles(self)
 
-    def generateTiles(self):
-        Map.tiles.append(Tile((0, 0, 0)))
-        freespaces: List[tuple] = []
-        placedtiles: int = 1
-        while placedtiles != self.tilecount:
-            freespaces.clear()
-            for tile in Map.tiles:
-                tile.getNeighbors(self)
-                for freespace in tile.neighbors:
-                    freespaces.append(freespace)
-            freespace = freespaces[random.randint(0, freespaces.__len__() - 1)]
-            if (
-                freespace[0] < -self.maxsize / 2
-                or freespace[0] >= self.maxsize / 2
-                or freespace[1] < -self.maxsize / 2
-                or freespace[1] >= self.maxsize / 2
-            ):
-                continue
-            Map.tiles.append(Tile((freespace[0], freespace[1], 0)))
-            placedtiles += 1
+    def generateTiles(self, scale):
+        file = numpy.load("map.npy", 'r', 'bytes')
+        for y, row in enumerate(file):
+            for x, tile in enumerate(row):
+                tile = round(float(tile))
+                if tile:
+                    Map.tiles.append(Tile((round(float(x)) - scale / 2,round(float(y)) - scale / 2, 0)))
 
     def renderTiles():
-        temptiles: List = list(Map.tiles)
-        row: List = []
-        lowx = temptiles[0].x
-        lowy = temptiles[0].y
-        highx = temptiles[0].x
-        highy = temptiles[0].y
-        lowz = temptiles[0].z
-        layer: List = []
-        for tile in temptiles:
-            if tile.z < lowz:
-                layer.append(tile)
-        for tile in layer:
-            if tile.x < lowx:
-                lowx = tile.x
-            elif tile.x > highx:
-                highx = tile.x
-            if tile.y < lowy:
-                lowy = tile.y
-            elif tile.y > highy:
-                highy = tile.y
+        for tile in Map.tiles:
+            pos: List = [
+                944 + (tile.x) * 32 - (tile.y) * 32,
+                529 + (tile.x) * 16 + (tile.y) * 16 - tile.z * 32,
+            ]
+            if type(tile) == Tile:
+                tiletype: str = tile.getTileType()
+                main.WIN.blit(pygame.image.load("Assets/Map/" + tiletype + "_Tile.png").convert_alpha(), pos)
 
-        while temptiles.__len__() != 0:
-            row.clear()
-            lowx = temptiles[0].x
-            lowy = temptiles[0].y
-            highx = temptiles[0].x
-            highy = temptiles[0].y
-
-            for tile in temptiles:
-                if tile.x < lowx:
-                    lowx = tile.x
-                elif tile.x > highx:
-                    highx = tile.x
-            origin = ()
-            for tile in temptiles:
-                if tile.x == lowx:
-                    row.append(tile)
-
-            lowy: int = row[0].y
-            for tile in row:
-                if tile.y < lowy:
-                    lowy = tile.y
-                elif tile.y > highy:
-                    highy = tile.y
-
-            for tile in row:
-                if tile.y == lowy:
-                    pos: List = [
-                        944 + (tile.x) * 32 - (tile.y) * 32,
-                        529 + (tile.x) * 16 + (tile.y) * 16 - tile.z * 32,
-                    ]
-                    if type(tile) == Tile:
-                        tiletype: str = tile.getTileType()
-                        if (tile.x, tile.y) == (0, 0):
-                            main.WIN.blit(pygame.image.load("Assets/Map/Test.png").convert_alpha(), pos)
-                        elif tiletype.__len__() != 0:
-                            main.WIN.blit(
-                                pygame.image.load("Assets/Map/" + tiletype + "_Tile.png").convert_alpha(), pos)
-                        else:
-                            main.WIN.blit(pygame.image.load("Assets/Map/Test.png"), pos)
-                    elif type(tile) == Player:
-                        pos[1] -= tile.imgy / 4
-                        pos[0] += tile.imgx / 2
-                        img = pygame.transform.scale(pygame.image.load("Assets/Player/Melee/Character01/character01-front-left.png").convert_alpha(),(32, 64))
-                        main.WIN.blit(img, pos)
-                    row.remove(tile)
-                    temptiles.remove(tile)
+            elif type(tile) == Player:
+                pos[1] -= tile.imgy / 4
+                pos[0] += tile.imgx / 2
+                img = pygame.transform.scale(pygame.image.load("Assets/Player/Melee/Character01/character01-front-left.png").convert_alpha(),(32, 64))
+                main.WIN.blit(img, pos)

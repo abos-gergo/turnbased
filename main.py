@@ -10,8 +10,10 @@ WIN.fill((149, 149, 149))
 
 
 def main() -> None:
-    print(noise.createNoise(100, 1))
+    scale = 30
+    print(noise.createNoise(scale, 3))
     map: Map = Map(300, 1)
+    map.generateTiles(scale)
     player1 = player.Player((1, 4, 1), 1)
     Map.renderTiles()
     clock = pygame.time.Clock()
