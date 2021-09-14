@@ -1,4 +1,3 @@
-import pygame
 import mapgen
 
 class Player:
@@ -17,9 +16,3 @@ class Player:
         for tile in mapgen.Map.tiles:
             if tile.x == self.x and tile.y == self.y:
                 return tile
-    '''
-    def onClick(self):
-        self.tileBelow.getNeighbors()
-        print(self.tileBelow.neighbors)
-        for neighbor in self.tileBelow.neighbors:
-            pygame.diplay.blit("Assets/Map/MoveTo.png", (0, 0))'''
