@@ -8,8 +8,8 @@ class click:
         self.button: int
 
     def clickedOnTile(self):
-        lowestDist = engine.pixelDistance(mapgen.Map.tiles[0], self.mousepos)
-        for tile in mapgen.Map.tiles[1, ]:
+        lowestDist = engine.pixelDistance(mapgen.Map.tile_matrix[0], self.mousepos)
+        for tile in mapgen.Map.tile_matrix[1, ]:
             pass
 
 
