@@ -4,6 +4,7 @@ import numpy
 import engine
 import main
 import pygame
+import camera
 
 
 class Tile:
@@ -25,6 +26,7 @@ class Tile:
                     neighbors[2] = 1
                 elif neighbor.x < self.x:  # NW
                     neighbors[3] = 1
+
         for i, v in enumerate(neighbors):
             if i == 0 and v == 0:
                 pos = (self.x, self.y - 1)
@@ -38,6 +40,7 @@ class Tile:
             if i == 3 and v == 0:
                 pos = (self.x - 1, self.y)
                 neighborspos.append(pos)
+
         self.neighbors = neighborspos
 
     def getTileType(self) -> str:
@@ -114,12 +117,13 @@ class Map:
                 if tile:
                     Map.tiles.append(Tile((round(float(x)) - scale / 2,round(float(y)) - scale / 2, 0)))
 
-    def renderTiles():
+    def renderTiles(offset):
         for tile in Map.tiles:
             pos: List = [
-                944 + (tile.x) * 32 - (tile.y) * 32,
-                529 + (tile.x) * 16 + (tile.y) * 16 - tile.z * 32,
+                (main.WIN.get_width()+32)/2 + (tile.x) * 32 - (tile.y) * 32 + offset[0],
+                (main.WIN.get_height()+16)/2 + (tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1],
             ]
+
             if type(tile) == Tile:
                 tiletype: str = tile.getTileType()
                 main.WIN.blit(pygame.image.load("Assets/Map/" + tiletype + "_Tile.png").convert_alpha(), pos)
@@ -129,3 +133,4 @@ class Map:
                 pos[0] += tile.imgx / 2
                 img = pygame.transform.scale(pygame.image.load("Assets/Player/Melee/Character01/character01-front-left.png").convert_alpha(),(32, 64))
                 main.WIN.blit(img, pos)
+
