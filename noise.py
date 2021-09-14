@@ -2,9 +2,7 @@ from typing import List
 from opensimplex import *
 import random
 import numpy
-import pygame
 import engine
-import main
 
 
 def createNoise(scale, precision = 10):
