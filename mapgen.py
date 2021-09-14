@@ -2,7 +2,6 @@ from player import Player
 from typing import List
 import engine
 import random
-from assets import Sprites
 import main
 import pygame
 
@@ -17,7 +16,7 @@ class Tile:
         neighborspos: List[tuple] = []
         neighbors: List[bool] = [0, 0, 0, 0]
         for neighbor in Map.tiles:
-            if engine.Distance(self, neighbor) == 1:
+            if engine.tileDistance(self, neighbor) == 1:
                 if neighbor.y < self.y:  # NE
                     neighbors[0] = 1
                 elif neighbor.x > self.x:  # SE
@@ -46,7 +45,7 @@ class Tile:
         neighborscount = 0
         neighbors: List[bool] = [0, 0, 0, 0]
         for neighbor in Map.tiles:
-            if engine.Distance(self, neighbor) == 1:
+            if engine.tileDistance(self, neighbor) == 1:
                 if neighbor.y < self.y:  # NE
                     neighbors[0] = 1
                 elif neighbor.x > self.x:  # SE

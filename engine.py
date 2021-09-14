@@ -1,12 +1,18 @@
 from typing import Any, List
 import pygame
+import math
 
 
-def Distance(tile1: Any, tile2: Any) -> int:
+def tileDistance(tile1: Any, tile2: Any) -> int:
     distx = abs(tile1.x - tile2.x)
     disty = abs(tile1.y - tile2.y)
     return distx + disty
 
+def pixelDistance(pos1: tuple[int, int], pos2: tuple[int, int]) -> int:
+    distx = abs(pos1[0] - pos2[0])
+    disty = abs(pos1[1] - pos2[1])
+    dist = math.sqrt(distx ** 2 + disty ** 2)
+    return dist
 
 def MoveTowards(
     start: tuple[int, int], target: tuple[int, int], speed: float
