@@ -9,7 +9,7 @@ class Camera():
         self.camera_speed : int = camera_speed
         self.display_offset : int= display_offset
 
-    def move_camera(self) -> None:
+    def move_camera(self) -> List[int]:
         if mouse.pos()[0] <= 0 + self.display_offset:
             self.offset[0] += self.camera_speed
 

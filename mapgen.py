@@ -1,7 +1,6 @@
 import player
 from typing import List
 import numpy
-import engine
 import main
 import pygame
 
@@ -148,8 +147,8 @@ class Map:
     def renderTiles(offset):
         for tile in Map.tiles:
             pos: List = [
-                (main.WIN.get_width()+32)/2 + (tile.x) * 32 - (tile.y) * 32 + offset[0],
-                -(main.WIN.get_height()+16)/2 + (tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1],
+                (tile.x) * 32 - (tile.y) * 32 + offset[0],
+                (tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1],
             ]
 
             if pos[0] > -64 and pos[0] < main.WIN.get_width() and pos[1] > -64 and pos[1] < main.WIN.get_height():
