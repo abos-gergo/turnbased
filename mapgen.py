@@ -4,28 +4,49 @@ import numpy
 import engine
 import main
 import pygame
-import camera
 
+
+class TileTypes:
+    S_NE_Tile = pygame.image.load("Assets/Map/S_NE_Tile.png").convert_alpha()
+    W_SE_Tile = pygame.image.load("Assets/Map/W_SE_Tile.png").convert_alpha()
+    E_SW_Tile = pygame.image.load("Assets/Map/E_SW_Tile.png").convert_alpha()
+    S_NW_Tile = pygame.image.load("Assets/Map/S_NW_Tile.png").convert_alpha()
+
+    N_Tile = pygame.image.load("Assets/Map/N_Tile.png").convert_alpha()
+    E_Tile = pygame.image.load("Assets/Map/E_Tile.png").convert_alpha()
+    S_Tile = pygame.image.load("Assets/Map/S_Tile.png").convert_alpha()
+    W_Tile = pygame.image.load("Assets/Map/W_Tile.png").convert_alpha()
+
+    NE_SW_Tile = pygame.image.load("Assets/Map/NE_SW_Tile.png").convert_alpha()
+    SE_NW_Tile = pygame.image.load("Assets/Map/SE_NW_Tile.png").convert_alpha()
+
+    NE_Tile = pygame.image.load("Assets/Map/NE_Tile.png").convert_alpha()
+    SE_Tile = pygame.image.load("Assets/Map/SE_Tile.png").convert_alpha()
+    SW_Tile = pygame.image.load("Assets/Map/SW_Tile.png").convert_alpha()
+    NW_Tile = pygame.image.load("Assets/Map/NW_Tile.png").convert_alpha()
+
+    M_Tile = pygame.image.load("Assets/Map/M_Tile.png").convert_alpha()
 
 class Tile:
+
+
     def __init__(self, pos: tuple) -> None:
         self.x, self.y, self.z = pos
         self.neighbors: List[tuple] = []
         self.imgx, self.imgy = (64, 32)
+        self.tile_type = "M"
 
-    def getNeighbors(self, map):
+    def getNeighbors(self):
         neighborspos: List[tuple] = []
         neighbors: List[bool] = [0, 0, 0, 0]
-        for neighbor in Map.tiles:
-            if engine.tileDistance(self, neighbor) == 1:
-                if neighbor.y < self.y:  # NE
-                    neighbors[0] = 1
-                elif neighbor.x > self.x:  # SE
-                    neighbors[1] = 1
-                elif neighbor.y > self.y:  # SW
-                    neighbors[2] = 1
-                elif neighbor.x < self.x:  # NW
-                    neighbors[3] = 1
+        if Map.tile_matrix[self.y - 1][self.x]:
+            neighbors[0] = 1
+        if Map.tile_matrix[self.y][self.x + 1]:
+            neighbors[1] = 1
+        if Map.tile_matrix[self.y + 1][self.x]:
+            neighbors[2] = 1
+        if Map.tile_matrix[self.y][self.x - 1]:
+            neighbors[3] = 1
 
         for i, v in enumerate(neighbors):
             if i == 0 and v == 0:
@@ -44,64 +65,65 @@ class Tile:
         self.neighbors = neighborspos
 
     def getTileType(self) -> str:
-        string: str = ""
         neighborscount = 0
         neighbors: List[bool] = [0, 0, 0, 0]
-        for neighbor in Map.tiles:
-            if engine.tileDistance(self, neighbor) == 1:
-                if neighbor.y < self.y:  # NE
-                    neighbors[0] = 1
-                elif neighbor.x > self.x:  # SE
-                    neighbors[1] = 1
-                elif neighbor.y > self.y:  # SW
-                    neighbors[2] = 1
-                elif neighbor.x < self.x:  # NW
-                    neighbors[3] = 1
-        for neighbor in neighbors:
-            if neighbor == 1:
-                neighborscount += 1
+        if Map.tile_matrix[self.y - 1][self.x]:
+            neighbors[0] = 1
+            neighborscount += 1
+        if Map.tile_matrix[self.y][self.x + 1]:
+            neighbors[1] = 1
+            neighborscount += 1
+        if Map.tile_matrix[self.y + 1][self.x]:
+            neighbors[2] = 1
+            neighborscount += 1
+        if Map.tile_matrix[self.y][self.x - 1]:
+            neighbors[3] = 1
+            neighborscount += 1
+
+
         if neighborscount == 1:
             if neighbors[0] == 1:
-                string = "S_NE"
+                return TileTypes.S_NE_Tile
             if neighbors[1] == 1:
-                string = "W_SE"
+                return TileTypes.W_SE_Tile
             if neighbors[2] == 1:
-                string = "E_SW"
+                return TileTypes.E_SW_Tile
             if neighbors[3] == 1:
-                string = "S_NW"
+                return TileTypes.S_NW_Tile
 
         elif neighborscount == 2:
             if neighbors[0] == 0 and neighbors[1] == 0:
-                string = "E"
+                return TileTypes.E_Tile
             elif neighbors[0] == 0 and neighbors[3] == 0:
-                string = "N"
+                return TileTypes.N_Tile
             elif neighbors[2] == 0 and neighbors[3] == 0:
-                string = "W"
+                return TileTypes.W_Tile
             elif neighbors[2] == 0 and neighbors[1] == 0:
-                string = "S"
+                return TileTypes.S_Tile
             elif neighbors[0] == 0 and neighbors[2] == 0:
-                string = "SE_NW"
+                return TileTypes.SE_NW_Tile
             elif neighbors[1] == 0 and neighbors[3] == 0:
-                string = "NE_SW"
+                return TileTypes.NE_SW_Tile
 
         elif neighborscount == 3:
             if neighbors[0] == 1 and neighbors[1] == 1 and neighbors[2] == 1:
-                string = "NW"
+                return TileTypes.NW_Tile
             elif neighbors[1] == 1 and neighbors[2] == 1 and neighbors[3] == 1:
-                string = "NE"
+                return TileTypes.NE_Tile
             elif neighbors[2] == 1 and neighbors[3] == 1 and neighbors[0] == 1:
-                string = "SE"
+                return TileTypes.SE_Tile
             elif neighbors[3] == 1 and neighbors[0] == 1 and neighbors[1] == 1:
-                string = "SW"
+                return TileTypes.SW_Tile
 
         elif neighborscount == 4:
-            string = "M"
+            return TileTypes.M_Tile
 
-        return string
+        return TileTypes.M_Tile
 
 
 class Map:
     tiles: List = []
+    tile_matrix: List[List] = []
     maxsize: int
     tilecount: int
 
@@ -111,26 +133,31 @@ class Map:
 
     def generateTiles(self, scale):
         file = numpy.load("map.npy", 'r', 'bytes')
+        matrix_row: List[List] = []
         for y, row in enumerate(file):
+            matrix_row.clear()
             for x, tile in enumerate(row):
                 tile = round(float(tile))
                 if tile:
-                    Map.tiles.append(Tile((round(float(x)) - scale / 2,round(float(y)) - scale / 2, 0)))
+                    Map.tiles.append(Tile((int(round(float(x))), int(round(float(y))), 0)))
+                matrix_row.append(tile)
+            Map.tile_matrix.append(list(matrix_row))
+        for tile in Map.tiles:
+            tile.tile_type = tile.getTileType()
 
     def renderTiles(offset):
         for tile in Map.tiles:
             pos: List = [
                 (main.WIN.get_width()+32)/2 + (tile.x) * 32 - (tile.y) * 32 + offset[0],
-                (main.WIN.get_height()+16)/2 + (tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1],
+                -(main.WIN.get_height()+16)/2 + (tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1],
             ]
 
-            if type(tile) == Tile:
-                tiletype: str = tile.getTileType()
-                main.WIN.blit(pygame.image.load("Assets/Map/" + tiletype + "_Tile.png").convert_alpha(), pos)
+            if pos[0] > -64 and pos[0] < main.WIN.get_width() and pos[1] > -64 and pos[1] < main.WIN.get_height():
+                if type(tile) == Tile:
+                    main.WIN.blit(tile.tile_type, pos)
 
-            elif type(tile) == Player:
-                pos[1] -= tile.imgy / 4
-                pos[0] += tile.imgx / 2
-                img = pygame.transform.scale(pygame.image.load("Assets/Player/Melee/Character01/character01-front-left.png").convert_alpha(),(32, 64))
-                main.WIN.blit(img, pos)
-
+                elif type(tile) == Player:
+                    pos[1] -= tile.imgy / 4
+                    pos[0] += tile.imgx / 2
+                    img = pygame.transform.scale(pygame.image.load("Assets/Player/Melee/Character01/character01-front-left.png").convert_alpha(),(32, 64))
+                    main.WIN.blit(img, pos)
