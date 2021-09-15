@@ -1,3 +1,4 @@
+import time
 import mapgen
 import pygame
 import player
@@ -6,20 +7,18 @@ import camera
 
 WIN = pygame.display.set_mode((1920, 1000), pygame.FULLSCREEN)
 CAM = camera.Camera(25, 40)
+SCALE = 60 #Defines max widht of the map
 
 def main() -> None:
-    scale = 30 #Defines max widht of the map
-    noise.createNoise(scale, 3)
+    noise.createNoise(SCALE, 10)
     map: mapgen.Map = mapgen.Map(300, 1)
-    player1 = player.Player((1, 4, 1), 1)
     clock = pygame.time.Clock()
-    map.generateTiles(scale)
+    map.generateTiles(SCALE)
     run = True
     while run:
+        clock.tick(60)
         WIN.fill((149, 149, 149))
         mapgen.Map.renderTiles(CAM.move_camera())
-        map.tiles = []
-        clock.tick(60)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False

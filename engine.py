@@ -14,9 +14,9 @@ def pixelDistance(pos1: tuple[int, int], pos2: tuple[int, int]) -> int:
     dist = math.sqrt(distx ** 2 + disty ** 2)
     return dist
 
-def MoveTowards(
-    start: tuple[int, int], target: tuple[int, int], speed: float
-) -> tuple[int, int]:  # Returns x and y value, both are whole numbers
+def MoveTowards(start: tuple[int, int], target: tuple[int, int], speed: float) -> tuple[int, int]:  
+    # Returns x and y value, both are whole numbers
+    
     dest: List[int] = []
     if start != target:
         startvector = pygame.Vector2(start)
