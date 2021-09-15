@@ -11,10 +11,10 @@ WIN = pygame.display.set_mode((1920, 1000), pygame.FULLSCREEN)
 CAM = camera.Camera(25, 40)
 
 def main() -> None:
-    scale = 20
+    scale = 100
     print(noise.createNoise(scale, 3))
     map: Map = Map(300, 1)
-    player1 = player.Player((1, 4, 1), 1)
+    #player1 = player.Player((1, 4, 1), 1)
     clock = pygame.time.Clock()
     map.generateTiles(scale)
     run = True
