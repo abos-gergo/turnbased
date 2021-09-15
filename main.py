@@ -9,17 +9,19 @@ import camera
 
 WIN = pygame.display.set_mode((1920, 1000), pygame.FULLSCREEN)
 CAM = camera.Camera(25, 40)
+SCALE = 30
 
 def main() -> None:
-    scale = 100
-    print(noise.createNoise(scale, 3))
+    noise.createNoise(SCALE)
     map: Map = Map(300, 1)
     #player1 = player.Player((1, 4, 1), 1)
     clock = pygame.time.Clock()
-    map.generateTiles(scale)
+    map.generateTiles(SCALE)
+    CAM.set_offset_to_middle()
     run = True
     pos: tuple(int) = (0, 0)
     while run:
+        print(CAM.offset)
         WIN.fill((149, 149, 149))
         Map.renderTiles(CAM.move_camera())
         map.tiles = []
@@ -34,6 +36,9 @@ def main() -> None:
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     run = False
+                
+                if event.key == K_SPACE:
+                    CAM.set_offset_to_middle()
         pygame.display.update()
 
 
