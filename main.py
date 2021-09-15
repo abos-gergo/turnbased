@@ -20,7 +20,6 @@ def main() -> None:
     run = True
     pos: tuple(int) = (0, 0)
     while run:
-        print(CAM.offset)
         WIN.fill((149, 149, 149))
         mapgen.Map.renderTiles(CAM.move_camera())
         map.tiles = []
