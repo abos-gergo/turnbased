@@ -50,5 +50,5 @@ def createNoise(scale, precision = 10):
                     matrix[x][y] = 0
                 elif neighborscount == 4 or neighborscount == 3:
                     matrix[x][y] = 1
-    os.remove("map.npy")
-    numpy.save("map", matrix)
+    os.remove("Game Files/map.npy")
+    numpy.save("Game Files/map", matrix)

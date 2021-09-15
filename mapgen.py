@@ -131,7 +131,7 @@ class Map:
         self.tilecount = tilecount
 
     def generateTiles(self, scale):
-        file = numpy.load("map.npy", 'r', 'bytes')
+        file = numpy.load("Game Files/map.npy", 'r', 'bytes')
         matrix_row: List[List] = []
         for y, row in enumerate(file):
             matrix_row.clear()
