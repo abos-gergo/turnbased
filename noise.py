@@ -46,7 +46,7 @@ def createNoise(scale, precision = 10):
                 if matrix[x][y + 1]: neighborscount += 1
                 if matrix[x - 1][y]: neighborscount += 1
                 
-                if neighborscount == 0 :
+                if neighborscount == 0:
                     matrix[x][y] = 0
                 elif neighborscount == 4 or neighborscount == 3:
                     matrix[x][y] = 1
