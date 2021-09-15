@@ -22,13 +22,4 @@ class Camera():
         elif mouse.pos()[1] >= main.WIN.get_height() - self.display_offset:
             self.offset[1] -= self.camera_speed
 
-        if self.offset[0] > (main.SCALE / 2) * 32:
-            self.offset[0] = (main.SCALE / 2) * 32
-        elif self.offset[0] < -((main.SCALE / 2) * 32):
-            self.offset[0] = -((main.SCALE / 2) * 32)
-        if self.offset[1] > (main.SCALE / 2) * 16:
-            self.offset[1] = (main.SCALE / 2) * 16
-        if self.offset[1] < -((main.SCALE / 2) * 16):
-            self.offset[1] = -((main.SCALE / 2) * 16)
-
         return self.offset
