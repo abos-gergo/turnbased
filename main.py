@@ -1,19 +1,18 @@
-import mapgen
-from mapgen import *
 import pygame
-from pygame import *
+WIN = pygame.display.set_mode((1920, 1000), pygame.FULLSCREEN)
+
+import mouse
+import mapgen
 import engine
-import player
 import noise
 import camera
 
-WIN = pygame.display.set_mode((1920, 1000), pygame.FULLSCREEN)
 CAM = camera.Camera(25, 40)
 SCALE = 30
 
 def main() -> None:
     noise.createNoise(SCALE)
-    map: Map = Map(300, 1)
+    map: mapgen.Map = mapgen.Map(300, 1)
     #player1 = player.Player((1, 4, 1), 1)
     clock = pygame.time.Clock()
     map.generateTiles(SCALE)
@@ -23,21 +22,21 @@ def main() -> None:
     while run:
         print(CAM.offset)
         WIN.fill((149, 149, 149))
-        Map.renderTiles(CAM.move_camera())
+        mapgen.Map.renderTiles(CAM.move_camera())
         map.tiles = []
         clock.tick(60)
         pos = engine.MoveTowards(pos, (1820, 980), 20)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed(3):
-                    pass
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
+                    tile = mouse.click.getClickedTile(CAM.offset)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
                     run = False
                 
-                if event.key == K_SPACE:
+                if event.key == pygame.K_SPACE:
                     CAM.set_offset_to_middle()
         pygame.display.update()
 

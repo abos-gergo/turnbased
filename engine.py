@@ -1,6 +1,7 @@
 from typing import Any, List
 import pygame
 import math
+import main
 
 
 def tileDistance(tile1: Any, tile2: Any) -> int:
@@ -31,3 +32,7 @@ def MoveTowards(start: tuple[int, int], target: tuple[int, int], speed: float) -
         dest = list(target)
     returned: tuple[int, int] = (dest[0], dest[1])
     return returned
+
+def convertTileToScreenPos(tile, offset: tuple[int, int]) -> tuple[int, int]:
+    screen_pos = (tile.x) * 32 - (tile.y) * 32 + offset[0] + 32, (tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1] + 16
+    return screen_pos

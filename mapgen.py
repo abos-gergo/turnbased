@@ -1,7 +1,6 @@
 import player
 from typing import List
 import numpy
-import engine
 import main
 import pygame
 
