@@ -17,7 +17,10 @@ class click:
                 lowest_dist = dist
                 closest_tile = tile
         print(closest_tile.x, closest_tile.y)
-        return closest_tile
+        if lowest_dist <= 32:
+            return closest_tile
+        else:
+            return None
 
 def pos() -> tuple[int, int]:
     return pygame.mouse.get_pos()
