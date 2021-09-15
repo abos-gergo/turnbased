@@ -1,6 +1,7 @@
 from typing import Any, List
 import pygame
 import math
+import main
 
 
 def tileDistance(tile1: Any, tile2: Any) -> int:
@@ -14,9 +15,9 @@ def pixelDistance(pos1: tuple[int, int], pos2: tuple[int, int]) -> int:
     dist = math.sqrt(distx ** 2 + disty ** 2)
     return dist
 
-def MoveTowards(
-    start: tuple[int, int], target: tuple[int, int], speed: float
-) -> tuple[int, int]:  # Returns x and y value, both are whole numbers
+def MoveTowards(start: tuple[int, int], target: tuple[int, int], speed: float) -> tuple[int, int]:  
+    # Returns x and y value, both are whole numbers
+    
     dest: List[int] = []
     if start != target:
         startvector = pygame.Vector2(start)
@@ -31,3 +32,7 @@ def MoveTowards(
         dest = list(target)
     returned: tuple[int, int] = (dest[0], dest[1])
     return returned
+
+def convertTileToScreenPos(tile, offset: tuple[int, int]) -> tuple[int, int]:
+    screen_pos = (tile.x) * 32 - (tile.y) * 32 + offset[0] + 32, (tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1] + 16
+    return screen_pos

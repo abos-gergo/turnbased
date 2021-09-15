@@ -1,16 +1,39 @@
-from player import Player
+import player
 from typing import List
 import numpy
-import engine
 import main
 import pygame
 
 
+class TileTypes:
+    S_NE_Tile = pygame.image.load("Assets/Map/S_NE_Tile.png").convert_alpha()
+    W_SE_Tile = pygame.image.load("Assets/Map/W_SE_Tile.png").convert_alpha()
+    E_SW_Tile = pygame.image.load("Assets/Map/E_SW_Tile.png").convert_alpha()
+    S_NW_Tile = pygame.image.load("Assets/Map/S_NW_Tile.png").convert_alpha()
+
+    N_Tile = pygame.image.load("Assets/Map/N_Tile.png").convert_alpha()
+    E_Tile = pygame.image.load("Assets/Map/E_Tile.png").convert_alpha()
+    S_Tile = pygame.image.load("Assets/Map/S_Tile.png").convert_alpha()
+    W_Tile = pygame.image.load("Assets/Map/W_Tile.png").convert_alpha()
+
+    NE_SW_Tile = pygame.image.load("Assets/Map/NE_SW_Tile.png").convert_alpha()
+    SE_NW_Tile = pygame.image.load("Assets/Map/SE_NW_Tile.png").convert_alpha()
+
+    NE_Tile = pygame.image.load("Assets/Map/NE_Tile.png").convert_alpha()
+    SE_Tile = pygame.image.load("Assets/Map/SE_Tile.png").convert_alpha()
+    SW_Tile = pygame.image.load("Assets/Map/SW_Tile.png").convert_alpha()
+    NW_Tile = pygame.image.load("Assets/Map/NW_Tile.png").convert_alpha()
+
+    M_Tile = pygame.image.load("Assets/Map/M_Tile.png").convert_alpha()
+
 class Tile:
+
+
     def __init__(self, pos: tuple) -> None:
         self.x, self.y, self.z = pos
         self.neighbors: List[tuple] = []
         self.imgx, self.imgy = (64, 32)
+        self.tile_type = "M"
 
     def getNeighbors(self):
         neighborspos: List[tuple] = []
@@ -37,6 +60,7 @@ class Tile:
             if i == 3 and v == 0:
                 pos = (self.x - 1, self.y)
                 neighborspos.append(pos)
+
         self.neighbors = neighborspos
 
     def getTileType(self) -> str:
@@ -58,42 +82,42 @@ class Tile:
 
         if neighborscount == 1:
             if neighbors[0] == 1:
-                return "S_NE"
+                return TileTypes.S_NE_Tile
             if neighbors[1] == 1:
-                return "W_SE"
+                return TileTypes.W_SE_Tile
             if neighbors[2] == 1:
-                return "E_SW"
+                return TileTypes.E_SW_Tile
             if neighbors[3] == 1:
-                return "S_NW"
+                return TileTypes.S_NW_Tile
 
         elif neighborscount == 2:
             if neighbors[0] == 0 and neighbors[1] == 0:
-                return "E"
+                return TileTypes.E_Tile
             elif neighbors[0] == 0 and neighbors[3] == 0:
-                return "N"
+                return TileTypes.N_Tile
             elif neighbors[2] == 0 and neighbors[3] == 0:
-                return "W"
+                return TileTypes.W_Tile
             elif neighbors[2] == 0 and neighbors[1] == 0:
-                return "S"
+                return TileTypes.S_Tile
             elif neighbors[0] == 0 and neighbors[2] == 0:
-                return "SE_NW"
+                return TileTypes.SE_NW_Tile
             elif neighbors[1] == 0 and neighbors[3] == 0:
-                return "NE_SW"
+                return TileTypes.NE_SW_Tile
 
         elif neighborscount == 3:
             if neighbors[0] == 1 and neighbors[1] == 1 and neighbors[2] == 1:
-                return "NW"
+                return TileTypes.NW_Tile
             elif neighbors[1] == 1 and neighbors[2] == 1 and neighbors[3] == 1:
-                return "NE"
+                return TileTypes.NE_Tile
             elif neighbors[2] == 1 and neighbors[3] == 1 and neighbors[0] == 1:
-                return "SE"
+                return TileTypes.SE_Tile
             elif neighbors[3] == 1 and neighbors[0] == 1 and neighbors[1] == 1:
-                return "SW"
+                return TileTypes.SW_Tile
 
         elif neighborscount == 4:
-            return "M"
+            return TileTypes.M_Tile
 
-        return "M"
+        return TileTypes.M_Tile
 
 
 class Map:
@@ -117,20 +141,22 @@ class Map:
                     Map.tiles.append(Tile((int(round(float(x))), int(round(float(y))), 0)))
                 matrix_row.append(tile)
             Map.tile_matrix.append(list(matrix_row))
-        print(Map.tile_matrix)
+        for tile in Map.tiles:
+            tile.tile_type = tile.getTileType()
 
-    def renderTiles():
+    def renderTiles(offset):
         for tile in Map.tiles:
             pos: List = [
-                944 + (tile.x) * 32 - (tile.y) * 32,
-                100 + (tile.x) * 16 + (tile.y) * 16 - tile.z * 32,
+                (tile.x) * 32 - (tile.y) * 32 + offset[0],
+                (tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1],
             ]
-            if type(tile) == Tile:
-                tiletype: str = tile.getTileType()
-                main.WIN.blit(pygame.image.load("Assets/Map/" + tiletype + "_Tile.png").convert_alpha(), pos)
 
-            elif type(tile) == Player:
-                pos[1] -= tile.imgy / 4
-                pos[0] += tile.imgx / 2
-                img = pygame.transform.scale(pygame.image.load("Assets/Player/Melee/Character01/character01-front-left.png").convert_alpha(),(32, 64))
-                main.WIN.blit(img, pos)
+            if pos[0] > -64 and pos[0] < main.WIN.get_width() and pos[1] > -64 and pos[1] < main.WIN.get_height():
+                if type(tile) == Tile:
+                    main.WIN.blit(tile.tile_type, pos)
+
+                elif type(tile) == player.Player:
+                    pos[1] -= tile.imgy / 4
+                    pos[0] += tile.imgx / 2
+                    img = pygame.transform.scale(pygame.image.load("Assets/Player/Melee/Character01/character01-front-left.png").convert_alpha(),(32, 64))
+                    main.WIN.blit(img, pos)

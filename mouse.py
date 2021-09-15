@@ -1,5 +1,5 @@
+import main
 import pygame.mouse
-
 import mapgen
 import engine
 
@@ -7,10 +7,20 @@ class click:
     def __init__(self) -> None:
         self.button: int
 
-    def pos(self) -> tuple[int, int]:
-        return pygame.mouse.get_pos()
+    def getClickedTile(offset: tuple[int, int]) -> mapgen.Tile:
+        clickpos = pos()
+        lowest_dist = engine.pixelDistance(engine.convertTileToScreenPos(mapgen.Map.tiles[0], offset), clickpos)
+        closest_tile = mapgen.Map.tiles[0]
+        for tile in mapgen.Map.tiles[1: ]:
+            dist = engine.pixelDistance(engine.convertTileToScreenPos(tile, offset), clickpos)
+            if dist < lowest_dist:
+                lowest_dist = dist
+                closest_tile = tile
+        print(closest_tile.x, closest_tile.y)
+        if lowest_dist <= 32:
+            return closest_tile
+        else:
+            return None
 
-    def clickedOnTile(self):
-        lowestDist = engine.pixelDistance(mapgen.Map.tile_matrix[0], self.mousepos)
-        for tile in mapgen.Map.tile_matrix[1, ]:
-            pass
+def pos() -> tuple[int, int]:
+    return pygame.mouse.get_pos()
