@@ -159,5 +159,5 @@ class Map:
                 pos[1] -= tile.imgy / 4
                 pos[0] += tile.imgx / 2
                 img = pygame.transform.scale(pygame.image.load("Assets/Player/Melee/Character01/character01-front-left.png").convert_alpha(),(32, 64))
-                main.WIN.blit(img, pos)
+                main.WIN.blit(img, pos) # KURVA
 
