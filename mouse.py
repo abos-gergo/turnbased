@@ -12,6 +12,5 @@ class click:
         for tile in mapgen.Map.tiles[1, ]:
             pass
 
-
 def pos() -> tuple[int, int]:
     return pygame.mouse.get_pos()
