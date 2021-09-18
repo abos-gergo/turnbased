@@ -1,3 +1,4 @@
+from pygame import display
 import player
 from typing import List
 import numpy
@@ -144,19 +145,19 @@ class Map:
         for tile in Map.tiles:
             tile.tile_type = tile.getTileType()
 
-    def renderTiles(offset):
+    def renderTiles(offset, Display):
         for tile in Map.tiles:
             pos: List = [
                 (tile.x) * 32 - (tile.y) * 32 + offset[0],
                 (tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1],
             ]
 
-            if pos[0] > -64 and pos[0] < main.WIN.get_width() and pos[1] > -64 and pos[1] < main.WIN.get_height():
+            if pos[0] > -64 and pos[0] < Display.get_width() and pos[1] > -64 and pos[1] < Display.get_height():
                 if type(tile) == Tile:
-                    main.WIN.blit(tile.tile_type, pos)
+                    Display.blit(tile.tile_type, pos)
 
                 elif type(tile) == player.Player:
                     pos[1] -= tile.imgy / 4
                     pos[0] += tile.imgx / 2
                     img = pygame.transform.scale(pygame.image.load("Assets/Player/Melee/Character01/character01-front-left.png").convert_alpha(),(32, 64))
-                    main.WIN.blit(img, pos)
+                    Display.blit(img, pos)

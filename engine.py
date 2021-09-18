@@ -33,6 +33,6 @@ def MoveTowards(start: tuple[int, int], target: tuple[int, int], speed: float) -
     returned: tuple[int, int] = (dest[0], dest[1])
     return returned
 
-def convertTileToScreenPos(tile, offset: tuple[int, int]) -> tuple[int, int]:
-    screen_pos = (tile.x) * 32 - (tile.y) * 32 + offset[0] + 32, (tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1] + 16
+def convertTileToScreenPos(tile, offset: tuple[int, int], zoom : List[int]) -> tuple[int, int]:
+    screen_pos = ((tile.x) * 32 - (tile.y) * 32 + offset[0] + 32)*(1920/(1920 + zoom[0])), ((tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1] + 16)*(1080/(1080 + zoom[1]))
     return screen_pos
