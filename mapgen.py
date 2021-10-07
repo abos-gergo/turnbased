@@ -156,7 +156,9 @@ class Map:
                     main.WIN.blit(tile.tile_type, pos)
 
                 elif type(tile) == player.Player:
-                    pos[1] -= tile.imgy / 4
-                    pos[0] += tile.imgx / 2
+                    pos: List = [
+                        (tile.x) * 32 - (tile.y) * 32 + offset[0],
+                        (tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1],
+                    ]
                     img = pygame.transform.scale(pygame.image.load("Assets/Player/Melee/Character01/character01-front-left.png").convert_alpha(),(32, 64))
                     main.WIN.blit(img, pos)

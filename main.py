@@ -3,6 +3,7 @@ WIN = pygame.display.set_mode((1920, 1000), pygame.FULLSCREEN)
 
 import mouse
 import mapgen
+import player
 import engine
 import noise
 import camera
@@ -13,9 +14,9 @@ SCALE = 30
 def main() -> None:
     noise.createNoise(SCALE)
     map: mapgen.Map = mapgen.Map(300, 1)
-    #player1 = player.Player((1, 4, 1), 1)
-    clock = pygame.time.Clock()
     map.generateTiles(SCALE)
+    player1 = player.Player(1)
+    clock = pygame.time.Clock()
     CAM.set_offset_to_middle()
     run = True
     pos: tuple(int) = (0, 0)
