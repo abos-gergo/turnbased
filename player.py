@@ -1,5 +1,6 @@
 import mapgen
 
+
 class Player:
     def __init__(self, pos: tuple, teamNumber) -> None:
         self.x = pos[0]
@@ -10,7 +11,6 @@ class Player:
         self.imgoffsetx, self.imgoffsety = (self.imgx / 2, self.imgy / 4)
         mapgen.Map.tiles.append(self)
         self.tileBelow = self.getTileBelow()
-        print(self.tileBelow.x, self.tileBelow.y)
 
     def getTileBelow(self):
         for tile in mapgen.Map.tiles:

@@ -1,13 +1,18 @@
-import main, mouse
+import main
+import mouse
 from typing import List
 
 
 class Camera():
     def __init__(self, camera_speed, display_offset):
-        self.offset : List[int] = [0, 0]
-        self.camera_speed : int = camera_speed
-        self.display_offset : int= display_offset
-        self.zoom : List[int] = [0, 0]
+        self.offset: List[int] = [0, 0]
+        self.camera_speed: int = camera_speed
+        self.display_offset: int = display_offset
+        self.zoom: List[int] = [0, 0]
+        self.zoom_size = 8
+        self.max_zoom = (1920 - 16 * self.zoom_size, 1080 - 9 * self.zoom_size)
+        self.min_zoom = (-1920 + 16 * self.zoom_size,
+                         - 1080 + 9 * self.zoom_size)
 
     def move_camera(self) -> List[int]:
         if mouse.pos()[0] <= 0 + self.display_offset:
@@ -25,17 +30,18 @@ class Camera():
         return self.offset
 
     def set_offset_to_middle(self):
-        self.offset = [(main.WIN.get_width()-main.SCALE + self.zoom[0])/2, (main.WIN.get_height()-main.SCALE*32 + self.zoom[1])/2]
+        self.offset = [(main.WIN.get_width()-main.SCALE + self.zoom[0])/2,
+                       (main.WIN.get_height()-main.SCALE*32 + self.zoom[1])/2]
 
     def set_offset(self, x, y):
         self.offset = [x, y]
-    
+
     def zoom_in(self):
-        if self.zoom[0] > -1920/2 or self.zoom[1] > -1080/2:
-            self.zoom[0] -= 16*10
-            self.zoom[1] -= 9*10
-    
+        if self.zoom[0] > self.min_zoom[0] or self.zoom[1] > self.min_zoom[1]:
+            self.zoom[0] -= 16 * self.zoom_size
+            self.zoom[1] -= 9 * self.zoom_size
+
     def zoom_out(self):
-        if self.zoom[0] < 1920*2 or self.zoom[1] < 1080*2:
-            self.zoom[0] += 16*10
-            self.zoom[1] += 9*10
+        if self.zoom[0] < self.max_zoom[0] or self.zoom[1] < self.max_zoom[1]:
+            self.zoom[0] += 16 * self.zoom_size
+            self.zoom[1] += 9 * self.zoom_size
