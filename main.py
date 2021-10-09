@@ -1,5 +1,6 @@
 import hud
 import camera
+#from Decorations import
 import engine
 import mapgen
 import generate_map
@@ -31,7 +32,7 @@ def main() -> None:
     zoom_out = False
     while run:
         DISPLAY = pygame.Surface((1920 + CAM.zoom[0], 1080 + CAM.zoom[1]))
-        DISPLAY.fill((147, 147, 147))
+        DISPLAY.fill((76.4, 107.3, 121.7))
         mapgen.Map.renderTiles(CAM.move_camera(), DISPLAY)
         map.tiles = []
         clock.tick(60)

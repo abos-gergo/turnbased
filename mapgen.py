@@ -141,15 +141,23 @@ class Map:
                 if tile:
                     Map.tiles.append(
                         Tile((int(round(float(x))), int(round(float(y))), 0)))
-                    if not(random.randint(0, 20)):
+                    if not(random.randint(0, 14)):
                         Map.tiles.append(Decorations.Tree(
                             [int(round(float(x))), int(round(float(y)))]))
+                    else:
+                        if not(random.randint(0, 60)):
+                            Map.tiles.append(Decorations.Rock(
+                                [int(round(float(x))), int(round(float(y)))]))
 
                 matrix_row.append(tile)
             Map.tile_matrix.append(list(matrix_row))
         for tile in Map.tiles:
             if type(tile) == Tile:
                 tile.tile_type = tile.getTileType()
+            if type(tile) == Decorations.Tree:
+                tile.tree_type = tile.get_tree_type()
+            if type(tile) == Decorations.Rock:
+                tile.rock_type = tile.get_rock_type()
 
     def tile_set_colorkey(self):
         for tile in Map.tiles:
@@ -164,11 +172,13 @@ class Map:
             ]
 
             if pos[0] > -64 and pos[0] < Display.get_width() and pos[1] > -64 and pos[1] < Display.get_height():
-                if type(tile) == Decorations.Tree:
-                    pos[0] -= 10
-                    pos[1] -= tile.imgy/2
-                    Display.blit(
-                                        Decorations.Tree(pos).tree_img.convert_alpha(), pos)
+                if type(tile) == Decorations.Rock:
+                    Display.blit(tile.rock_type.convert_alpha(), pos)
+
+                elif type(tile) == Decorations.Tree:
+                    pos[1] -= 64
+                    Display.blit(tile.tree_type.convert_alpha(), pos)
+
                 elif type(tile) == Tile:
                     Display.blit(tile.tile_type.convert(), pos)
 
