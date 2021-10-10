@@ -95,5 +95,5 @@ class generate_map:
                         if x > len(level) - y_cut_size - 1 - self.random_gen['padding']:
                             level[x][y] = 0
 
-        os.remove("map.npy")
-        numpy.save("map", level)
+        if os.path.isfile("Game Files/map.npy"): os.remove("Game Files/map.npy")
+        numpy.save("Game Files/map", level)

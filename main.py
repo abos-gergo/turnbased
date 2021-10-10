@@ -28,12 +28,13 @@ def main() -> None:
     zoom_hud: hud.zoom = hud.zoom(CAM.zoom)
     zoom_in = False
     zoom_out = False
+    clock = pygame.time.Clock()
     while run:
         DISPLAY = pygame.Surface((1920 + CAM.zoom[0], 1080 + CAM.zoom[1]))
         DISPLAY.fill((76.4, 107.3, 121.7))
         mapgen.Map.renderTiles(CAM.move_camera(), DISPLAY)
         map.tiles = []
-        pygame.clock.tick(60)
+        clock.tick(60)
         pos = engine.MoveTowards(pos, (1820, 980), 20)
 
         if zoom_in:
