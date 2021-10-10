@@ -96,4 +96,5 @@ class generate_map:
                             level[x][y] = 0
 
         if os.path.isfile("Game Files/map.npy"): os.remove("Game Files/map.npy")
+        if not os.path.isdir("Game Files"): os.mkdir("Game Files")
         numpy.save("Game Files/map", level)
