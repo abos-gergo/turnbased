@@ -43,23 +43,57 @@ class generate_map:
             if roll == 4 and y < self.scale - 1 - self.random_gen['padding']:
                 self.random_gen['y'] += 1
 
-        for i in range(2):
+        for i in range(3):
+            x_cut_size = 2
+            y_cut_size = 2
+
             for y in range(len(level)):
+                if random.randint(0, 1):
+                    if x_cut_size > 0:
+                        x_cut_size -= 1
+                else:
+                    if x_cut_size < 6:
+                        x_cut_size += 1
+
+                if random.randint(0, 1):
+                    if y_cut_size > 0:
+                        y_cut_size -= 1
+                else:
+                    if y_cut_size < 6:
+                        y_cut_size += 1
+
                 for x in range(len(level[y])):
                     self.neighborscount = 0
-                    if level[y][x] == 0:
-                        if y > 1 and y < len(level) - 1 and x > 1 and x < len(level[y]) - 1:
-                            if level[y-1][x] == 1:
-                                self.neighborscount += 1
-                            if level[y+1][x] == 1:
-                                self.neighborscount += 1
-                            if level[y][x+1] == 1:
-                                self.neighborscount += 1
-                            if level[y][x-1] == 1:
-                                self.neighborscount += 1
+                    if y > 1 and y < len(level) - 1 and x > 1 and x < len(level[y]) - 1:
+                        if level[y-1][x] == 1:
+                            self.neighborscount += 1
+                        if level[y+1][x] == 1:
+                            self.neighborscount += 1
+                        if level[y][x+1] == 1:
+                            self.neighborscount += 1
+                        if level[y][x-1] == 1:
+                            self.neighborscount += 1
 
-                        if self.neighborscount == 4 or self.neighborscount == 3:
+                    if not(level[y][x]):
+                        if self.neighborscount >= 3:
                             level[y][x] = 1
+
+                    else:
+                        if self.neighborscount < 1:
+                            level[y][x] = 0
+
+                    if not(i):
+                        if x < x_cut_size + self.random_gen['padding']:
+                            level[y][x] = 0
+
+                        if x > len(level[y]) - x_cut_size - 1 - self.random_gen['padding']:
+                            level[y][x] = 0
+
+                        if x < y_cut_size + self.random_gen['padding']:
+                            level[x][y] = 0
+
+                        if x > len(level) - y_cut_size - 1 - self.random_gen['padding']:
+                            level[x][y] = 0
 
         os.remove("map.npy")
         numpy.save("map", level)
