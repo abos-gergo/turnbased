@@ -54,6 +54,7 @@ def main() -> None:
                 if event.button == 1:
                     zoom_hud.m1_click = True
                     tile = mouse.click.getClickedTile(CAM.offset, CAM.zoom)
+                    if tile: print(tile.x, tile.y, tile.z)
 
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:

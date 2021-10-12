@@ -10,21 +10,21 @@ class click:
         self.button: int
 
     def getClickedTile(offset: tuple, zoom: List[int]) -> mapgen.Tile:
-        clickpos = pos()
-        lowest_dist = engine.pixelDistance(engine.convertTileToScreenPos(
-            mapgen.Map.tiles[0], offset, zoom), clickpos)
-        closest_tile = mapgen.Map.tiles[0]
-        for tile in mapgen.Map.tiles[1:]:
+        click_pos = pos()
+        highest_z = -1
+        clicked_tile: mapgen.Tile = None
+        for tile in mapgen.Map.tiles:
             dist = engine.pixelDistance(
-                engine.convertTileToScreenPos(tile, offset, zoom), clickpos)
-            if dist < lowest_dist:
-                lowest_dist = dist
-                closest_tile = tile
-        print(closest_tile.x, closest_tile.y)
-        if lowest_dist <= 32:
-            return closest_tile
-        else:
-            return None
+                engine.convertTileToScreenPos(tile, offset, zoom), click_pos)
+            if dist <= 32:
+                if highest_z < tile.z:
+                    clicked_tile = tile
+        if clicked_tile:
+            if type(clicked_tile) == mapgen.Tile:
+                if clicked_tile.tile_above:
+                    return clicked_tile.tile_above
+            return clicked_tile
+        return None
 
 
 def pos() -> tuple:

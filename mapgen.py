@@ -35,6 +35,7 @@ class Tile:
         self.neighbors: List[tuple] = []
         self.imgx, self.imgy = (64, 32)
         self.tile_type = "M"
+        self.tile_above = None
 
     def getNeighbors(self):
         neighborspos: List[tuple] = []
@@ -119,6 +120,9 @@ class Tile:
             return TileTypes.M_Tile
 
         return TileTypes.M_Tile
+    
+    def set_tile_above(self, tile) -> None:
+        self.tile_above = tile
 
 
 class Map:
@@ -137,17 +141,18 @@ class Map:
         for y, row in enumerate(file):
             matrix_row.clear()
             for x, tile in enumerate(row):
-                tile = round(float(tile))
                 if tile:
-                    Map.tiles.append(
-                        Tile((int(round(float(x))), int(round(float(y))), 0)))
+                    generated_tile = Tile((int(round(float(x))), int(round(float(y))), 0))
+                    Map.tiles.append(generated_tile)
                     if not(random.randint(0, 14)):
-                        Map.tiles.append(Decorations.Tree(
-                            [int(round(float(x))), int(round(float(y)))]))
+                        generated_tree = Decorations.Tree([int(round(float(x))), int(round(float(y)))])
+                        Map.tiles.append(generated_tree)
+                        generated_tile.set_tile_above(generated_tree)
                     else:
                         if not(random.randint(0, 60)):
-                            Map.tiles.append(Decorations.Rock(
-                                [int(round(float(x))), int(round(float(y)))]))
+                            generated_rock = Decorations.Rock([int(round(float(x))), int(round(float(y)))])
+                            Map.tiles.append(generated_rock)
+                            generated_tile.set_tile_above(generated_rock)
 
                 matrix_row.append(tile)
             Map.tile_matrix.append(list(matrix_row))
