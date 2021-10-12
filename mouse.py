@@ -3,16 +3,17 @@ import pygame
 import mapgen
 import engine
 from typing import List
+import tiles
 
 
 class click:
     def __init__(self) -> None:
         self.button: int
 
-    def getClickedTile(offset: tuple, zoom: List[int]) -> mapgen.Tile:
+    def getClickedTile(offset: tuple, zoom: List[int]):
         click_pos = pos()
         highest_z = -1
-        clicked_tile: mapgen.Tile = None
+        clicked_tile: tiles.Dirt = None
         for tile in mapgen.Map.tiles:
             dist = engine.pixelDistance(
                 engine.convertTileToScreenPos(tile, offset, zoom), click_pos)
@@ -20,7 +21,7 @@ class click:
                 if highest_z < tile.z:
                     clicked_tile = tile
         if clicked_tile:
-            if type(clicked_tile) == mapgen.Tile:
+            if type(clicked_tile) == tiles.Dirt:
                 if clicked_tile.tile_above:
                     return clicked_tile.tile_above
             return clicked_tile

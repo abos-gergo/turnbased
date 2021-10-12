@@ -1,12 +1,10 @@
 import hud
 import camera
-#from Decorations import
 import engine
 import mapgen
 import generate_map
 import mouse
 import pygame
-from pygame import display
 WIN = pygame.display.set_mode((1920, 1000), pygame.FULLSCREEN)
 
 CAM = camera.Camera(25, 10)
