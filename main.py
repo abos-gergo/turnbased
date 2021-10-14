@@ -5,7 +5,7 @@ import mapgen
 import generate_map
 import mouse
 import pygame
-WIN = pygame.display.set_mode((1920, 1000), pygame.FULLSCREEN)
+WIN = pygame.display.set_mode((1920, 1080))
 
 CAM = camera.Camera(25, 10)
 SCALE = 70
@@ -52,7 +52,8 @@ def main() -> None:
                 if event.button == 1:
                     zoom_hud.m1_click = True
                     tile = mouse.click.getClickedTile(CAM.offset, CAM.zoom)
-                    if tile: print(tile.x, tile.y, tile.z)
+                    if tile:
+                        print(tile.x, tile.y, tile.z)
 
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:

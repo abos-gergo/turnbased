@@ -3,6 +3,7 @@ import random
 from typing import List
 import pygame
 
+
 class TileTypes:
     S_NE_Dirt = pygame.image.load("Assets/Map/S_NE_Tile.png")
     W_SE_Dirt = pygame.image.load("Assets/Map/W_SE_Tile.png")
@@ -24,6 +25,7 @@ class TileTypes:
 
     M_Dirt = pygame.image.load("Assets/Map/M_Tile.png")
 
+
 class Tile:
     def __init__(self, pos) -> None:
         self.x = pos[0]
@@ -34,11 +36,12 @@ class Tile:
     def get_tile_type(self):
         pass
 
+
 class Dirt(Tile):
     def __init__(self, pos: tuple) -> None:
         super().__init__(pos)
 
-        self.neighbors: List[tuple] = []
+        self.neighbors: List[tuple] = [0, 0, 0, 0]
         self.imgx, self.imgy = (64, 32)
         self.tile_type = ''
         self.tile_above = None
@@ -48,16 +51,14 @@ class Dirt(Tile):
         Returns a list of bools, true meaning there is a neighbor, false meaning there isn't one.
         """
         neighbors: List[bool] = [0, 0, 0, 0]
-        if self.y > 1 and self.y < len(mapgen.Map.tile_matrix) - 1 and self.x > 1 and self.x < len(mapgen.Map.tile_matrix[self.y]) - 1:
-            if mapgen.Map.tile_matrix[self.y - 1][self.x]:
-                neighbors[0] = 1
-            if mapgen.Map.tile_matrix[self.y][self.x + 1]:
-                neighbors[1] = 1
-            if mapgen.Map.tile_matrix[self.y + 1][self.x]:
-                neighbors[2] = 1
-            if mapgen.Map.tile_matrix[self.y][self.x - 1]:
-                neighbors[3] = 1
-        print(neighbors)
+        if mapgen.Map.tile_matrix[self.y - 1][self.x]:
+            neighbors[0] = 1
+        if mapgen.Map.tile_matrix[self.y][self.x + 1]:
+            neighbors[1] = 1
+        if mapgen.Map.tile_matrix[self.y + 1][self.x]:
+            neighbors[2] = 1
+        if mapgen.Map.tile_matrix[self.y][self.x - 1]:
+            neighbors[3] = 1
         return neighbors
 
     def get_tile_type(self) -> str:
@@ -68,6 +69,7 @@ class Dirt(Tile):
         for neighbor in self.neighbors:
             if neighbor:
                 neighborscount += 1
+        print(self.neighbors)
 
         if neighborscount == 1:
             if self.neighbors[0] == 1:
@@ -107,9 +109,10 @@ class Dirt(Tile):
             return TileTypes.M_Dirt
 
         return TileTypes.M_Dirt
-    
+
     def set_tile_above(self, tile) -> None:
         self.tile_above = tile
+
 
 class Tree(Tile):
     def __init__(self, pos) -> None:

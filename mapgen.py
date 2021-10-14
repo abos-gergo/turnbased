@@ -6,6 +6,7 @@ import pygame
 import random
 import tiles
 
+
 class Map:
     tiles: List = []
     tile_matrix: List[List] = []
@@ -35,20 +36,21 @@ class Map:
                             Map.tiles.append(generated_rock)
                             generated_tile.set_tile_above(generated_rock)
 
+                print(tile)
                 matrix_row.append(tile)
             Map.tile_matrix.append(list(matrix_row))
         for tile in Map.tiles:
-            if type(tile) == tiles.Dirt:
-                tile.neighbors = generated_tile.get_neighbors()
+            if isinstance(tile, tiles.Dirt):
+                tile.neighbors = tile.get_neighbors()
                 tile.tile_type = tile.get_tile_type()
-            if type(tile) == tiles.Tree:
+            if isinstance(tile, tiles.Tree):
                 tile.tile_type = tile.get_tile_type()
-            if type(tile) == tiles.Rock:
+            if isinstance(tile, tiles.Rock):
                 tile.tile_type = tile.get_tile_type()
 
     def tile_set_colorkey(self):
         for tile in Map.tiles:
-            if type(tile) == tiles.Dirt:
+            if isinstance(tile, tiles.Dirt):
                 tile.tile_type.set_colorkey((0, 0, 0))
 
     def renderTiles(offset, Display):
@@ -59,17 +61,17 @@ class Map:
             ]
 
             if pos[0] > -64 and pos[0] < Display.get_width() and pos[1] > -64 and pos[1] < Display.get_height():
-                if type(tile) == tiles.Rock:
+                if isinstance(tile, tiles.Rock):
                     Display.blit(tile.tile_type.convert_alpha(), pos)
 
-                elif type(tile) == tiles.Tree:
+                elif isinstance(tile, tiles.Tree):
                     pos[1] -= 64
                     Display.blit(tile.tile_type.convert_alpha(), pos)
 
-                elif type(tile) == tiles.Dirt:
+                elif isinstance(tile, tiles.Dirt):
                     Display.blit(tile.tile_type.convert(), pos)
 
-                elif type(tile) == player.Player:
+                elif isinstance(tile, player.Player):
                     pos[1] -= tile.imgy / 4
                     pos[0] += tile.imgx / 2
                     img = pygame.transform.scale(pygame.image.load(
