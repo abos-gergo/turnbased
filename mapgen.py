@@ -39,6 +39,7 @@ class Map:
             Map.tile_matrix.append(list(matrix_row))
         for tile in Map.tiles:
             if type(tile) == tiles.Dirt:
+                tile.neighbors = generated_tile.get_neighbors()
                 tile.tile_type = tile.get_tile_type()
             if type(tile) == tiles.Tree:
                 tile.tile_type = tile.get_tile_type()

@@ -43,68 +43,64 @@ class Dirt(Tile):
         self.tile_type = ''
         self.tile_above = None
 
-    def getNeighbors(self):
-        neighborspos: List[tuple] = []
-        if mapgen.Map.tile_matrix[self.y - 1][self.x]:
-            neighborspos.append(self.x, self.y - 1)
-        if mapgen.Map.tile_matrix[self.y][self.x + 1]:
-            neighborspos.append(self.x + 1, self.y)
-        if mapgen.Map.tile_matrix[self.y + 1][self.x]:
-            neighborspos.append(self.x, self.y + 1)
-        if mapgen.Map.tile_matrix[self.y][self.x - 1]:
-            neighborspos.append(self.x - 1, self.y)
-
-        self.neighbors = neighborspos
-
-    def get_tile_type(self) -> str:
-        neighborscount = 0
+    def get_neighbors(self) -> List[bool]:
+        """
+        Returns a list of bools, true meaning there is a neighbor, false meaning there isn't one.
+        """
         neighbors: List[bool] = [0, 0, 0, 0]
         if self.y > 1 and self.y < len(mapgen.Map.tile_matrix) - 1 and self.x > 1 and self.x < len(mapgen.Map.tile_matrix[self.y]) - 1:
             if mapgen.Map.tile_matrix[self.y - 1][self.x]:
                 neighbors[0] = 1
-                neighborscount += 1
             if mapgen.Map.tile_matrix[self.y][self.x + 1]:
                 neighbors[1] = 1
-                neighborscount += 1
             if mapgen.Map.tile_matrix[self.y + 1][self.x]:
                 neighbors[2] = 1
-                neighborscount += 1
             if mapgen.Map.tile_matrix[self.y][self.x - 1]:
                 neighbors[3] = 1
+        print(neighbors)
+        return neighbors
+
+    def get_tile_type(self) -> str:
+        """
+        Returns a string representing the tile type, chosen based on the dirt's neighbors
+        """
+        neighborscount = 0
+        for neighbor in self.neighbors:
+            if neighbor:
                 neighborscount += 1
 
         if neighborscount == 1:
-            if neighbors[0] == 1:
+            if self.neighbors[0] == 1:
                 return TileTypes.S_NE_Dirt
-            if neighbors[1] == 1:
+            if self.neighbors[1] == 1:
                 return TileTypes.W_SE_Dirt
-            if neighbors[2] == 1:
+            if self.neighbors[2] == 1:
                 return TileTypes.E_SW_Dirt
-            if neighbors[3] == 1:
+            if self.neighbors[3] == 1:
                 return TileTypes.S_NW_Dirt
 
         elif neighborscount == 2:
-            if neighbors[0] == 0 and neighbors[1] == 0:
+            if self.neighbors[0] == 0 and self.neighbors[1] == 0:
                 return TileTypes.E_Dirt
-            elif neighbors[0] == 0 and neighbors[3] == 0:
+            elif self.neighbors[0] == 0 and self.neighbors[3] == 0:
                 return TileTypes.N_Dirt
-            elif neighbors[2] == 0 and neighbors[3] == 0:
+            elif self.neighbors[2] == 0 and self.neighbors[3] == 0:
                 return TileTypes.W_Dirt
-            elif neighbors[2] == 0 and neighbors[1] == 0:
+            elif self.neighbors[2] == 0 and self.neighbors[1] == 0:
                 return TileTypes.S_Dirt
-            elif neighbors[0] == 0 and neighbors[2] == 0:
+            elif self.neighbors[0] == 0 and self.neighbors[2] == 0:
                 return TileTypes.SE_NW_Dirt
-            elif neighbors[1] == 0 and neighbors[3] == 0:
+            elif self.neighbors[1] == 0 and self.neighbors[3] == 0:
                 return TileTypes.NE_SW_Dirt
 
         elif neighborscount == 3:
-            if neighbors[0] == 1 and neighbors[1] == 1 and neighbors[2] == 1:
+            if self.neighbors[0] == 1 and self.neighbors[1] == 1 and self.neighbors[2] == 1:
                 return TileTypes.NW_Dirt
-            elif neighbors[1] == 1 and neighbors[2] == 1 and neighbors[3] == 1:
+            elif self.neighbors[1] == 1 and self.neighbors[2] == 1 and self.neighbors[3] == 1:
                 return TileTypes.NE_Dirt
-            elif neighbors[2] == 1 and neighbors[3] == 1 and neighbors[0] == 1:
+            elif self.neighbors[2] == 1 and self.neighbors[3] == 1 and self.neighbors[0] == 1:
                 return TileTypes.SE_Dirt
-            elif neighbors[3] == 1 and neighbors[0] == 1 and neighbors[1] == 1:
+            elif self.neighbors[3] == 1 and self.neighbors[0] == 1 and self.neighbors[1] == 1:
                 return TileTypes.SW_Dirt
 
         elif neighborscount == 4:
