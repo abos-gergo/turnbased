@@ -36,7 +36,6 @@ class Map:
                             Map.tiles.append(generated_rock)
                             generated_tile.set_tile_above(generated_rock)
 
-                print(tile)
                 matrix_row.append(tile)
             Map.tile_matrix.append(list(matrix_row))
         for tile in Map.tiles:

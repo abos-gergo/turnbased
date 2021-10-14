@@ -69,7 +69,6 @@ class Dirt(Tile):
         for neighbor in self.neighbors:
             if neighbor:
                 neighborscount += 1
-        print(self.neighbors)
 
         if neighborscount == 1:
             if self.neighbors[0] == 1:
@@ -110,7 +109,10 @@ class Dirt(Tile):
 
         return TileTypes.M_Dirt
 
-    def set_tile_above(self, tile) -> None:
+    def set_tile_above(self, tile: Tile) -> None:
+        """
+        Sets the dirt's tile_above variable to the given tile
+        """
         self.tile_above = tile
 
 

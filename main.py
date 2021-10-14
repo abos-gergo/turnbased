@@ -6,9 +6,8 @@ import generate_map
 import mouse
 import pygame
 WIN = pygame.display.set_mode((1920, 1080))
-
 CAM = camera.Camera(25, 10)
-SCALE = 70
+SCALE = 60
 
 pygame.display.set_caption("rendkívül keratív név")
 icon = pygame.image.load('Assets/icon/Névtelen.png')
