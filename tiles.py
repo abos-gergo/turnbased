@@ -53,14 +53,18 @@ class Dirt(Tile):
         """
 
         neighbors: List[bool] = [0, 0, 0, 0]
-        if map.Map.tile_matrix[self.y - 1][self.x]:
-            neighbors[0] = 1
-        if map.Map.tile_matrix[self.y][self.x + 1]:
-            neighbors[1] = 1
-        if map.Map.tile_matrix[self.y + 1][self.x]:
-            neighbors[2] = 1
-        if map.Map.tile_matrix[self.y][self.x - 1]:
-            neighbors[3] = 1
+        for row in map.tile_matrix:
+            for dirt in row:
+                if dirt:
+                    if dirt.y == self.y - 1 and dirt.x == self.x:
+                        neighbors[0] = 1
+                    elif dirt.y == self.y and dirt.x == self.x + 1:
+                        neighbors[1] = 1
+                    elif dirt.y == self.y + 1 and dirt.x == self.x:
+                        neighbors[2] = 1
+                    elif dirt.y == self.y and dirt.x == self.x - 1:
+                        neighbors[3] = 1
+        print(neighbors)
         return neighbors
 
     def get_tile_type(self) -> str:

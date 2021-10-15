@@ -1,14 +1,18 @@
-from map import Map
+from map import tile_matrix
 from typing import List
+
+from tiles import Dirt
 
 
 def renderTiles(offset, Display):
-    for tile in Map.tiles:
-        pos: List = [
-            (tile.x) * 32 - (tile.y) * 32 + offset[0],
-            (tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1] - tile.anchor_y
-        ]
+    for row in tile_matrix:
+        for tile in row:
+            if tile:
+                pos: List = [
+                    (tile.x) * 32 - (tile.y) * 32 + offset[0],
+                    (tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1] - tile.anchor_y
+                ]
 
-        if pos[0] > -64 and pos[0] < Display.get_width() + 64 and pos[1] > -64 and pos[1] < Display.get_height() + 64:
+                if pos[0] > -64 and pos[0] < Display.get_width() + 64 and pos[1] > -64 and pos[1] < Display.get_height() + 64:
 
-            Display.blit(tile.tile_type, pos)
+                    Display.blit(tile.tile_type, pos)
