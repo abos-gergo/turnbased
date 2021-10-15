@@ -1,6 +1,3 @@
-import pygame
-import tiles
-import player
 from mapgen import Map
 from typing import List
 

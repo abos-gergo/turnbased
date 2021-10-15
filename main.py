@@ -1,13 +1,14 @@
 import hud
 import camera
-import engine
+import mouse
 import mapgen
 import generate_map
 import pygame
 import render
 
 WIN = pygame.display.set_mode((1920, 1080))
-CAM = camera.Camera(25, 10)
+DISPLAY = pygame.Surface((1920, 1080))
+CAM = camera.Camera(40, 10)
 SCALE = 60
 
 
