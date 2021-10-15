@@ -32,6 +32,7 @@ class Tile:
         self.y = pos[1]
         self.z = pos[2]
         self.tile_type = ''
+        self.anchor_y: int = 0
 
     def get_tile_type(self):
         pass
@@ -50,6 +51,7 @@ class Dirt(Tile):
         """
         Returns a list of bools, true meaning there is a neighbor, false meaning there isn't one.
         """
+
         neighbors: List[bool] = [0, 0, 0, 0]
         if mapgen.Map.tile_matrix[self.y - 1][self.x]:
             neighbors[0] = 1
@@ -63,8 +65,9 @@ class Dirt(Tile):
 
     def get_tile_type(self) -> str:
         """
-        Returns a string representing the tile type, chosen based on the dirt's neighbors
+        Returns a string representing the tile type based on the dirt's neighbors
         """
+
         neighborscount = 0
         for neighbor in self.neighbors:
             if neighbor:
@@ -113,19 +116,17 @@ class Dirt(Tile):
         """
         Sets the dirt's tile_above variable to the given tile
         """
+
         self.tile_above = tile
 
 
 class Tree(Tile):
     def __init__(self, pos) -> None:
         super().__init__(pos)
-        self.tree0_img = pygame.image.load(
-            "Assets/decorations/Tree01.png")
-        self.tree1_img = pygame.image.load(
-            "Assets/decorations/Tree02.png")
-        self.imgx = self.tree0_img.get_width()
-        self.imgy = self.tree0_img.get_height()
+        self.imgx = 64
+        self.imgy = 64
         self.tile_type = ''
+        self.anchor_y: int = 64
 
     def get_tile_type(self):
         """
@@ -140,12 +141,9 @@ class Tree(Tile):
 
 class Rock(Tile):
     def __init__(self, pos):
-        self.x = pos[0]
-        self.y = pos[1]
-        self.img = pygame.image.load('Assets/decorations/rock01.png')
-        self.imgx = self.img.get_width()
-        self.imgy = self.img.get_height()
-        self.z = 1
+        super().__init__(pos)
+        self.imgx = 64
+        self.imgy = 64
         self.tile_type = ''
 
     def get_tile_type(self):

@@ -12,15 +12,16 @@ SCALE = 60
 
 
 def main() -> None:
+    # WINDOW SETUP ------------------------------------------------------------ WINDOW SETUP
     pygame.display.set_caption("rendkívül keratív név")
     icon = pygame.image.load('Assets/icon/icon.png')
     pygame.display.set_icon(icon)
+    # MAP GENERATION -------------------------------------------------------- MAP GENERATION
     generate_map.generate_map(SCALE).generation()
     map: mapgen.Map = mapgen.Map(300, 1)
     map.generateTiles(SCALE)
     map.tile_set_colorkey()
     CAM.set_offset_to_middle()
-    pos: tuple(int) = (0, 0)
     zoom_hud: hud.zoom = hud.zoom(CAM.zoom)
     zoom_in = False
     zoom_out = False
@@ -32,7 +33,6 @@ def main() -> None:
         render.renderTiles(CAM.move_camera(), DISPLAY)
         map.tiles = []
         clock.tick(60)
-        pos = engine.MoveTowards(pos, (1820, 980), 20)
 
         if zoom_in:
             CAM.zoom_in()
