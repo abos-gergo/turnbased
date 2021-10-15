@@ -19,9 +19,8 @@ def main() -> None:
     pygame.display.set_icon(icon)
     # MAP GENERATION -------------------------------------------------------- MAP GENERATION
     generate_map.generate_map(SCALE).generation()
-    map: Map = Map(300, 1)
-    map.generateTiles(SCALE)
-    map.tile_set_colorkey()
+    map: Map = Map()
+    map.generateTiles()
     CAM.set_offset_to_middle()
     zoom_hud: hud.zoom = hud.zoom(CAM.zoom)
     zoom_in = False
