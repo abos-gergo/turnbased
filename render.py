@@ -11,4 +11,4 @@ def renderTiles(offset, Display):
 
         if pos[0] > -64 and pos[0] < Display.get_width() + 64 and pos[1] > -64 and pos[1] < Display.get_height() + 64:
 
-            Display.blit(tile.tile_type.convert_alpha(), pos)
+            Display.blit(tile.tile_type, pos)

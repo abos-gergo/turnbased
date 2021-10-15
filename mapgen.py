@@ -1,8 +1,5 @@
-from pygame import display
-import player
 from typing import List
 import numpy
-import pygame
 import random
 import tiles
 
@@ -41,11 +38,11 @@ class Map:
         for tile in Map.tiles:
             if isinstance(tile, tiles.Dirt):
                 tile.neighbors = tile.get_neighbors()
-                tile.tile_type = tile.get_tile_type()
+                tile.tile_type = tile.get_tile_type().convert()
             if isinstance(tile, tiles.Tree):
-                tile.tile_type = tile.get_tile_type()
+                tile.tile_type = tile.get_tile_type().convert_alpha()
             if isinstance(tile, tiles.Rock):
-                tile.tile_type = tile.get_tile_type()
+                tile.tile_type = tile.get_tile_type().convert_alpha()
 
     def tile_set_colorkey(self):
         for tile in Map.tiles:
