@@ -1,6 +1,6 @@
 import main
 import pygame
-import mapgen
+import map
 import engine
 from typing import List
 import tiles

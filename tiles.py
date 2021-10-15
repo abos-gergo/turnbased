@@ -1,4 +1,4 @@
-import mapgen
+import map
 import random
 from typing import List
 import pygame
@@ -53,13 +53,13 @@ class Dirt(Tile):
         """
 
         neighbors: List[bool] = [0, 0, 0, 0]
-        if mapgen.Map.tile_matrix[self.y - 1][self.x]:
+        if map.Map.tile_matrix[self.y - 1][self.x]:
             neighbors[0] = 1
-        if mapgen.Map.tile_matrix[self.y][self.x + 1]:
+        if map.Map.tile_matrix[self.y][self.x + 1]:
             neighbors[1] = 1
-        if mapgen.Map.tile_matrix[self.y + 1][self.x]:
+        if map.Map.tile_matrix[self.y + 1][self.x]:
             neighbors[2] = 1
-        if mapgen.Map.tile_matrix[self.y][self.x - 1]:
+        if map.Map.tile_matrix[self.y][self.x - 1]:
             neighbors[3] = 1
         return neighbors
 

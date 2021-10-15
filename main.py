@@ -1,7 +1,7 @@
+from map import Map
 import hud
 import camera
 import mouse
-import mapgen
 import generate_map
 import pygame
 import render
@@ -19,7 +19,7 @@ def main() -> None:
     pygame.display.set_icon(icon)
     # MAP GENERATION -------------------------------------------------------- MAP GENERATION
     generate_map.generate_map(SCALE).generation()
-    map: mapgen.Map = mapgen.Map(300, 1)
+    map: Map = Map(300, 1)
     map.generateTiles(SCALE)
     map.tile_set_colorkey()
     CAM.set_offset_to_middle()
