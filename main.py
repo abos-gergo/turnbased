@@ -5,7 +5,6 @@ import mapgen
 import generate_map
 import pygame
 import render
-import input
 
 WIN = pygame.display.set_mode((1920, 1080))
 CAM = camera.Camera(25, 10)
