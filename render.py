@@ -1,4 +1,4 @@
-from mapgen import Map
+from map import Map
 from typing import List
 
 
