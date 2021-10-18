@@ -26,7 +26,7 @@ class generate_map:
 
         return [0] * self.scale
 
-    def generation(self) -> None:
+    def dirt_generation(self) -> None:
         '''
         Generates the map to Gamefiles\\map.npy
         '''
