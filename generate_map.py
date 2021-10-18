@@ -1,6 +1,7 @@
 import random
 import numpy
 import os
+from map import tile_matrix
 
 
 class generate_map:
@@ -126,3 +127,9 @@ class generate_map:
         if os.path.isfile("Game Files/dirt.npy"):
             os.remove("Game Files/dirt.npy")
         numpy.save("Game Files/dirt", level)
+
+    def enviroment_generation(self) -> None:
+        for row in tile_matrix:
+            for tile in row:
+                if tile:
+                    print(tile.x, tile.y)

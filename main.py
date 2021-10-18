@@ -18,9 +18,11 @@ def main() -> None:
     icon = pygame.image.load('Assets/icon/icon.png')
     pygame.display.set_icon(icon)
     # MAP GENERATION -------------------------------------------------------- MAP GENERATION
-    generate_map.generate_map(SCALE).dirt_generation()
+    mapgen = generate_map.generate_map(SCALE)
+    mapgen.dirt_generation()
     map: Map = Map()
     map.read_dirt()
+    mapgen.enviroment_generation()
     CAM.set_offset_to_middle()
     zoom_hud: hud.zoom = hud.zoom(CAM.zoom)
     zoom_in = False

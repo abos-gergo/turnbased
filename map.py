@@ -1,6 +1,5 @@
 from typing import List
 import numpy
-import random
 import tiles
 
 tile_matrix: List[List] = []
