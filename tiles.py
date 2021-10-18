@@ -64,7 +64,6 @@ class Dirt(Tile):
                         neighbors[2] = 1
                     elif dirt.y == self.y and dirt.x == self.x - 1:
                         neighbors[3] = 1
-        print(neighbors)
         return neighbors
 
     def get_tile_type(self) -> str:
