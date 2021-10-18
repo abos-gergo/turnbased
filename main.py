@@ -20,7 +20,7 @@ def main() -> None:
     # MAP GENERATION -------------------------------------------------------- MAP GENERATION
     generate_map.generate_map(SCALE).dirt_generation()
     map: Map = Map()
-    map.generateTiles()
+    map.read_dirt()
     CAM.set_offset_to_middle()
     zoom_hud: hud.zoom = hud.zoom(CAM.zoom)
     zoom_in = False

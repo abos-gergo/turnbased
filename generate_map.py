@@ -123,6 +123,6 @@ class generate_map:
         # manage files
         if not os.path.isdir("Game Files"):
             os.mkdir("Game Files")
-        if os.path.isfile("Game Files/map.npy"):
-            os.remove("Game Files/map.npy")
-        numpy.save("Game Files/map", level)
+        if os.path.isfile("Game Files/dirt.npy"):
+            os.remove("Game Files/dirt.npy")
+        numpy.save("Game Files/dirt", level)

@@ -5,10 +5,11 @@ import tiles
 
 tile_matrix: List[List] = []
 
+
 class Map:
 
-    def generateTiles(self):
-        map_file = numpy.load("Game Files/map.npy", 'r', 'bytes')
+    def read_dirt(self):
+        map_file = numpy.load("Game Files/dirt.npy", 'r', 'bytes')
 
         for y, row in enumerate(map_file):
             temp_row: List[List] = []
