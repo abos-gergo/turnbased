@@ -21,7 +21,7 @@ def main() -> None:
     mapgen = generate_map.generate_map(SCALE)
     mapgen.dirt_generation()
     map: Map = Map()
-    map.read_dirt()
+    map.read_tiles()
     mapgen.enviroment_generation()
     CAM.set_offset_to_middle()
     zoom_hud: hud.zoom = hud.zoom(CAM.zoom)

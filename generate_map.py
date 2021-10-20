@@ -2,7 +2,6 @@ import random
 import numpy
 import os
 from map import tile_matrix
-import tiles
 
 
 class generate_map:
@@ -131,13 +130,14 @@ class generate_map:
 
     def enviroment_generation(self) -> None:
         level = [self.get_level_row() for _ in range(self.scale)]
-        for y, row in enumerate(tile_matrix):
+        for y, row in enumerate(tile_matrix[0]):
             for x, tile in enumerate(row):
                 if tile:
                     if not (random.randint(0, 8)):
-                        level[x][y] = 'Tree'
+                        print(x, y)
+                        level[x][y] = 2
                     elif not (random.randint(0, 16)):
-                        level[x][y] = 'Rock'
+                        level[x][y] = 3
         if not os.path.isdir("Game Files"):
             os.mkdir("Game Files")
         if os.path.isfile("Game Files/layer_1.npy"):

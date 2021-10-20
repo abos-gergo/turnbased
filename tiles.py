@@ -1,7 +1,7 @@
-import map
 import random
 from typing import List
 import pygame
+import map
 
 
 class TileTypes:
@@ -53,17 +53,18 @@ class Dirt(Tile):
         """
 
         neighbors: List[bool] = [0, 0, 0, 0]
-        for row in map.tile_matrix:
-            for dirt in row:
-                if dirt:
-                    if dirt.y == self.y - 1 and dirt.x == self.x:
-                        neighbors[0] = 1
-                    elif dirt.y == self.y and dirt.x == self.x + 1:
-                        neighbors[1] = 1
-                    elif dirt.y == self.y + 1 and dirt.x == self.x:
-                        neighbors[2] = 1
-                    elif dirt.y == self.y and dirt.x == self.x - 1:
-                        neighbors[3] = 1
+        for layer in map.tile_matrix:
+            for row in layer:
+                for dirt in row:
+                    if dirt:
+                        if dirt.y == self.y - 1 and dirt.x == self.x:
+                            neighbors[0] = 1
+                        elif dirt.y == self.y and dirt.x == self.x + 1:
+                            neighbors[1] = 1
+                        elif dirt.y == self.y + 1 and dirt.x == self.x:
+                            neighbors[2] = 1
+                        elif dirt.y == self.y and dirt.x == self.x - 1:
+                            neighbors[3] = 1
         return neighbors
 
     def get_tile_type(self) -> str:
