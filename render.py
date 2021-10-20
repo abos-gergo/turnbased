@@ -1,7 +1,6 @@
 from map import tile_matrix
 from typing import List
 
-
 def renderTiles(offset, Display):
     for layer in tile_matrix:
         for row in layer:
