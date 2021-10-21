@@ -14,14 +14,12 @@ class click:
         click_pos = pos()
         highest_z = -1
         clicked_tile: tiles.Dirt = None
-        for row in tile_matrix:
-            for tile in row:
-                if tile:
-                    dist = engine.pixelDistance(
-                        engine.convertTileToScreenPos(tile, offset, zoom), click_pos)
-                    if dist <= 32:
-                        if highest_z < tile.z:
-                            clicked_tile = tile
+        for tile in tile_matrix:
+            dist = engine.pixelDistance(
+                engine.convertTileToScreenPos(tile, offset, zoom), click_pos)
+            if dist <= 32:
+                if highest_z < tile[1][2]:
+                    clicked_tile = tile[0]
         if clicked_tile:
             if type(clicked_tile) == tiles.Dirt:
                 if clicked_tile.tile_above:

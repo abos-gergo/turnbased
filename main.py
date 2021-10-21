@@ -9,7 +9,7 @@ import render
 WIN = pygame.display.set_mode((1920, 1080))
 DISPLAY = pygame.Surface((1920, 1080))
 CAM = camera.Camera(30, 10)
-SCALE = 60
+SCALE = 40
 
 
 def main() -> None:
@@ -23,7 +23,6 @@ def main() -> None:
     map: Map = Map()
     map.read_tiles()
     CAM.set_offset_to_middle()
-    print(tile_matrix, none_matrix)
     zoom_hud: hud.zoom = hud.zoom(CAM.zoom)
     zoom_in = False
     zoom_out = False
