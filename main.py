@@ -1,4 +1,4 @@
-from map import Map
+from map import Map, tile_matrix, none_matrix
 import hud
 import camera
 import mouse
@@ -22,8 +22,8 @@ def main() -> None:
     mapgen.dirt_generation()
     map: Map = Map()
     map.read_tiles()
-    mapgen.enviroment_generation()
     CAM.set_offset_to_middle()
+    print(tile_matrix, none_matrix)
     zoom_hud: hud.zoom = hud.zoom(CAM.zoom)
     zoom_in = False
     zoom_out = False

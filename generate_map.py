@@ -1,7 +1,6 @@
 import random
 import numpy
 import os
-from map import tile_matrix
 import tiles
 
 
@@ -20,6 +19,7 @@ class generate_map:
         }
 
         self.neighborscount: int = 0
+        self.level: list[list] = []
 
     def get_level_row(self) -> list:
         '''
@@ -32,16 +32,16 @@ class generate_map:
         '''
         Generates the map to Gamefiles\\map.npy
         '''
-        # make the level list according to the scales
-        level = [self.get_level_row() for _ in range(self.scale)]
+        # make the self.level list according to the scales
+        self.level = [self.get_level_row() for _ in range(self.scale)]
 
         while self.generation_specs['dirt_count'] >= 0:
             x = self.generation_specs['x']
             y = self.generation_specs['y']
 
             # dirt count decreases by 1 if the chosen tile type is 0 (none), and sets it to 1 (dirt tile)
-            if level[y][x] == 0:
-                level[y][x] = 1
+            if self.level[y][x] == 0:
+                self.level[y][x] = 1
                 self.generation_specs['dirt_count'] -= 1
 
             # choose a direction (top, left, bottom, right)
@@ -64,7 +64,7 @@ class generate_map:
             x_cut_size = 2
             y_cut_size = 2
 
-            for y in range(len(level)):
+            for y in range(len(self.level)):
 
                 # set the cut sizes, based on randomness,
                 if random.randint(0, 1):
@@ -81,63 +81,68 @@ class generate_map:
                     if y_cut_size < 6:
                         y_cut_size += 1
 
-                for x in range(len(level[y])):
+                for x in range(len(self.level[y])):
                     # get the neighbors of a dirt tile
                     self.neighborscount = 0
-                    if y > 1 and y < len(level) - 1 and x > 1 and x < len(level[y]) - 1:
-                        if level[y - 1][x] == 1:
+                    if y > 1 and y < len(self.level) - 1 and x > 1 and x < len(self.level[y]) - 1:
+                        if self.level[y - 1][x] == 1:
                             self.neighborscount += 1
-                        if level[y + 1][x] == 1:
+                        if self.level[y + 1][x] == 1:
                             self.neighborscount += 1
-                        if level[y][x + 1] == 1:
+                        if self.level[y][x + 1] == 1:
                             self.neighborscount += 1
-                        if level[y][x - 1] == 1:
+                        if self.level[y][x - 1] == 1:
                             self.neighborscount += 1
 
                     # if tile is 0 (none) the count of the neighbors are more than 2, it will set the 0 (none) to 1 (dirt tile)
-                    if not(level[y][x]):
+                    if not(self.level[y][x]):
                         if self.neighborscount >= 3:
-                            level[y][x] = 1
+                            self.level[y][x] = 1
 
                     # if the tile is 1 (dirt tile), but doesn't have any neighbors, the 1 (dirt tile) will set to 0 (none)
                     else:
                         if self.neighborscount < 1:
-                            level[y][x] = 0
+                            self.level[y][x] = 0
 
                     # it runs only once (if not(i))
                     if not(i):
                         # deletes all the tiles, which are closer to the left side than the cutsize
                         if x < x_cut_size + self.generation_specs['padding']:
-                            level[y][x] = 0
+                            self.level[y][x] = 0
 
                         # deletes all the tiles, which are closer to the right side than the cutsize
-                        if x > len(level[y]) - x_cut_size - 1 - self.generation_specs['padding']:
-                            level[y][x] = 0
+                        if x > len(self.level[y]) - x_cut_size - 1 - self.generation_specs['padding']:
+                            self.level[y][x] = 0
 
                         # deletes all the tiles, which are closer to the top side than the cutsize
                         if x < y_cut_size + self.generation_specs['padding']:
-                            level[x][y] = 0
+                            self.level[x][y] = 0
 
                         # deletes all the tiles, which are closer to the bottom side than the cutsize
-                        if x > len(level) - y_cut_size - 1 - self.generation_specs['padding']:
-                            level[x][y] = 0
+                        if x > len(self.level) - y_cut_size - 1 - self.generation_specs['padding']:
+                            self.level[x][y] = 0
 
         # manage files
         if not os.path.isdir("Game Files"):
             os.mkdir("Game Files")
         if os.path.isfile("Game Files/layer_0.npy"):
             os.remove("Game Files/layer_0.npy")
-        numpy.save("Game Files/layer_0", level)
+        numpy.save("Game Files/layer_0", self.level)
 
-    def enviroment_generation(self) -> None:
-        level = [self.get_level_row() for _ in range(self.scale)]
-        for y, row in enumerate(tile_matrix[0]):
-            for x, tile in enumerate(row):
-                if type(tile) == tiles.Dirt:
-                    if not (random.randint(0, 16)):
-                        level[y][x] = 2
+        enviroment_level = self.level
+
+        for y, row in enumerate(enviroment_level):
+            for x in range(len(row)):
+                if enviroment_level[y][x] == 1:
+                    if not random.randint(0, 6):
+                        enviroment_level[y][x] = 2
+                    else:
+                        enviroment_level[y][x] = 0
+
         if not os.path.isdir("Game Files"):
             os.mkdir("Game Files")
         if os.path.isfile("Game Files/layer_1.npy"):
             os.remove("Game Files/layer_1.npy")
-        numpy.save("Game Files/layer_1", level)
+        numpy.save("Game Files/layer_1", enviroment_level)
+
+        
