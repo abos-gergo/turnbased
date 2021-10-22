@@ -54,7 +54,6 @@ class Dirt(Tile):
 
         neighbors: List[bool] = [0, 0, 0, 0]
         for dirt in map.tile_matrix:
-            dirt = dirt[0]
             if dirt:
                 if dirt.y == self.y - 1 and dirt.x == self.x:
                     neighbors[0] = 1

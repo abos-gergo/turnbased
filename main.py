@@ -9,7 +9,7 @@ import render
 WIN = pygame.display.set_mode((1920, 1080))
 DISPLAY = pygame.Surface((1920, 1080))
 CAM = camera.Camera(30, 10)
-SCALE = 40
+SCALE = 70
 
 
 def main() -> None:

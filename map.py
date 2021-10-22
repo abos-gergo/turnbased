@@ -17,15 +17,14 @@ class Map:
                 for x, tile in enumerate(row):
                     if tile == 1:
                         generated_tile = tiles.Dirt((int(round(float(x))), int(round(float(y))), z))
-                        tile_matrix.append((generated_tile, (x, y, z)))
+                        tile_matrix.append(generated_tile)
                     elif tile == 2:
                         generated_tree = tiles.Tree((x, y, z))
-                        tile_matrix.append((generated_tree, (x, y, z)))
+                        tile_matrix.append(generated_tree)
                     else:
                         none_matrix.append((None, (x, y, z)))
 
         for tile in tile_matrix:
-            tile = tile[0]
             if isinstance(tile, tiles.Dirt):
                 tile.neighbors = tile.get_neighbors()
                 tile.tile_type = tile.get_tile_type().convert()

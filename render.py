@@ -3,7 +3,6 @@ from typing import List
 
 def renderTiles(offset, Display):
     for tile in tile_matrix:
-        tile = tile[0]
         pos: List = [
             (tile.x) * 32 - (tile.y) * 32 + offset[0],
             (tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1] - tile.anchor_y]
