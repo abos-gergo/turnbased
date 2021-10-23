@@ -134,10 +134,13 @@ class generate_map:
         for y, row in enumerate(enviroment_level):
             for x in range(len(row)):
                 if enviroment_level[y][x] == 1:
-                    if not random.randint(0, 6):
+                    if not random.randint(0, 3):
                         enviroment_level[y][x] = 2
+                    elif not random.randint(0, 20):
+                        enviroment_level[y][x] = 3
                     else:
                         enviroment_level[y][x] = 0
+
 
         if not os.path.isdir("Game Files"):
             os.mkdir("Game Files")

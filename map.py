@@ -21,6 +21,9 @@ class Map:
                     elif tile == 2:
                         generated_tree = tiles.Tree((x, y, z))
                         tile_matrix.append(generated_tree)
+                    elif tile == 3:
+                        generated_tile = tiles.Rock((x, y, z))
+                        tile_matrix.append(generated_tile)
                     else:
                         none_matrix.append((None, (x, y, z)))
 
