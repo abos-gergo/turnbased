@@ -30,5 +30,5 @@ class Map:
                 tile.tile_type = tile.get_tile_type().convert()
                 tile.tile_type.set_colorkey((0, 0, 0))
             elif tile:
-                tile.tile_type = tile.get_tile_type().convert_alpha()
-                #tile.tile_type.set_colorkey((0, 0, 0))
+                tile.tile_type = tile.get_tile_type().convert()
+                tile.tile_type.set_colorkey((0, 0, 0))
