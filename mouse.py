@@ -17,15 +17,15 @@ class click:
         for tile in dirt_matrix:
             dist = engine.pixelDistance(
                 engine.convertTileToScreenPos(tile, offset, zoom), click_pos)
-            if dist <= 32:
+            if dist <= 16 * main.WIN.get_width()/(main.WIN.get_width() + zoom[0]):
                 if highest_z < tile.z:
                     clicked_tile = tile
+
         if clicked_tile:
             if type(clicked_tile) == tiles.Dirt:
                 if clicked_tile.tile_above:
                     return clicked_tile.tile_above
             
-            print(clicked_tile)
             return clicked_tile
         return None
 

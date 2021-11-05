@@ -30,4 +30,3 @@ def renderTiles(offset, Display, player, clicked_tile):
                         Display.blit(tile.tile_type, pos)
                     else:
                         Display.blit(tile.get_tile_type(), pos)
-
