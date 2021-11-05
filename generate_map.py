@@ -134,7 +134,7 @@ class generate_map:
         for y, row in enumerate(enviroment_level):
             for x in range(len(row)):
                 if enviroment_level[y][x] == 1:
-                    if not random.randint(0, 3):
+                    if not random.randint(0, 15):
                         enviroment_level[y][x] = 2
                     elif not random.randint(0, 20):
                         enviroment_level[y][x] = 3

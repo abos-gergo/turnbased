@@ -25,6 +25,8 @@ class TileTypes:
 
     M_Dirt = pygame.image.load("Assets/Map/M_Tile.png")
 
+    outline = pygame.image.load("Assets/Map/clicked.png")
+
 
 class Tile:
     def __init__(self, pos) -> None:
