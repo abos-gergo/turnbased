@@ -29,4 +29,6 @@ def renderTiles(offset, Display, player, clicked_tile):
                     if tile != player:
                         Display.blit(tile.tile_type, pos)
                     else:
+                        pos[0] = pos[0] - 4
+                        pos[1] = pos[1] - 4
                         Display.blit(tile.get_tile_type(), pos)
