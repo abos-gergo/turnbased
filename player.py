@@ -12,6 +12,7 @@ class Player:
         self.player_types = (pygame.image.load('Assets/Player/Melee/Character01/character01-front-left.png'), pygame.image.load('Assets/Player/Melee/Character01/character01-front-right.png'), pygame.image.load('Assets/Player/Melee/Character01/character01-back-left.png'), pygame.image.load('Assets/Player/Melee/Character01/character01-back-right.png'))
         self.teamNumber = teamNumber
         self.middle_offset = 1/self.player_types[0].get_width()*2
+        self.prev_player_type = self.player_types[0]
 
     def getTileBelow(self, tile_matrix):
         for tile in tile_matrix:
@@ -20,18 +21,22 @@ class Player:
     
     def get_tile_type(self):
         if self.move_direction.x == 1:
+            self.prev_player_type = self.player_types[1]
             return self.player_types[1]
         
         elif self.move_direction.x == -1:
+            self.prev_player_type = self.player_types[2]
             return self.player_types[2]
         
         elif self.move_direction.y == 1:
+            self.prev_player_type = self.player_types[0]
             return self.player_types[0]
         
         elif self.move_direction.y == -1:
+            self.prev_player_type = self.player_types[3]
             return self.player_types[3]
         else:
-            return self.player_types[0]
+            return self.prev_player_type
     
     def move(self, tile):
         if tile.x - self.x < -1 * self.move_speed:
