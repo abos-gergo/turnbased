@@ -33,8 +33,9 @@ class Camera():
         self.offset = [(main.WIN.get_width()-main.SCALE + self.zoom[0])/2,
                        (main.WIN.get_height()-main.SCALE*32 + self.zoom[1])/2]
 
-    def set_offset(self, x, y):
-        self.offset = [x, y]
+    def set_offset_to_player(self, player):
+        self.offset = [(main.WIN.get_width()- (player.x * 32 - player.y * 32)+ self.zoom[0])/2,
+                       (main.WIN.get_height()- (player.x * 16 + player.y * 16 - player.z * 32) + self.zoom[1])/2]
 
     def zoom_in(self):
         if self.zoom[0] > self.min_zoom[0] or self.zoom[1] > self.min_zoom[1]:

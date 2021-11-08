@@ -1,6 +1,6 @@
 import main
 import pygame
-import mapgen
+from map import dirt_matrix
 import engine
 from typing import List
 import tiles
@@ -14,19 +14,24 @@ class click:
         click_pos = pos()
         highest_z = -1
         clicked_tile: tiles.Dirt = None
-        for tile in mapgen.Map.tiles:
-            dist = engine.pixelDistance(
+        for tile in dirt_matrix:
+            distx, disty = engine.pixelDistance(
                 engine.convertTileToScreenPos(tile, offset, zoom), click_pos)
-            if dist <= 32:
+            if distx <= 16 * main.WIN.get_width()/(main.WIN.get_width() + zoom[0]) and disty <= 16 * main.WIN.get_width()/(main.WIN.get_width() + zoom[0]):
                 if highest_z < tile.z:
                     clicked_tile = tile
+
         if clicked_tile:
             if type(clicked_tile) == tiles.Dirt:
                 if clicked_tile.tile_above:
                     return clicked_tile.tile_above
+            
             return clicked_tile
         return None
 
 
 def pos() -> tuple:
     return pygame.mouse.get_pos()
+
+def display_cursor(display):
+    pygame.draw.circle(display, (255,255,255), pos(), 5, 2) 
