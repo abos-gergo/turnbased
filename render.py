@@ -23,8 +23,9 @@ def renderTiles(offset, Display, player, clicked_tile):
                     ]
                 
                 if tile == player:
-                    enviroment_matrix[y][x] = None
-                    enviroment_matrix[int(player.y) + int(abs(player.move_direction.y))][int(player.x) + int(abs(player.move_direction.x))] = player
+                    if enviroment_matrix[int(player.y) + int(abs(player.move_direction.y))][int(player.x) + int(abs(player.move_direction.x))] == None:
+                        enviroment_matrix[y][x] = None
+                        enviroment_matrix[int(player.y) + int(abs(player.move_direction.y))][int(player.x) + int(abs(player.move_direction.x))] = player
                 if pos[0] > -64 and pos[0] < Display.get_width() + 64 and pos[1] > -64 and pos[1] < Display.get_height() + 64:
                     if tile != player:
                         Display.blit(tile.tile_type, pos)
