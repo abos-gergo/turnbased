@@ -3,7 +3,7 @@ import numpy
 import tiles
 
 tile_matrix: List = []
-none_matrix: List[None] = []
+none_matrix: List[List] = [[None]*70 for i in range(70)]
 dirt_matrix: List[tiles.Dirt] = []
 enviroment_matrix: List[List] = [[None]*70 for i in range(70)]
 
@@ -17,6 +17,7 @@ class Map:
                         generated_tile = tiles.Dirt((int(round(float(x))), int(round(float(y))), z))
                         tile_matrix.append(generated_tile)
                         dirt_matrix.append(generated_tile)
+                        none_matrix[y][x] = generated_tile
                     elif y == player0.y and x == player0.x and z == player0.z:
                         generated_tile = player0
                         tile_matrix.append(generated_tile)
@@ -29,8 +30,6 @@ class Map:
                         generated_tile = tiles.Rock((x, y, z))
                         tile_matrix.append(generated_tile)
                         enviroment_matrix[y][x] = generated_tile                        
-                    else:
-                        none_matrix.append((None, (x, y, z)))
 
         for tile in tile_matrix:
             if isinstance(tile, tiles.Dirt):
