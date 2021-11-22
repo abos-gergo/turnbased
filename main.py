@@ -1,4 +1,4 @@
-from map import Map, dirt_matrix, none_matrix
+from map import Map
 import hud
 import camera
 import mouse
@@ -26,7 +26,7 @@ def main() -> None:
     map.read_tiles(player0)
     CAM.set_offset_to_middle()
     zoom_hud: hud.zoom = hud.zoom(CAM.zoom)
-    clock = pygame.time.Clock()
+    clock = pygame.time.Clock() 
     run = True
     tile = player0.getTileBelow()
     while run:
@@ -36,7 +36,7 @@ def main() -> None:
         render.renderTiles(CAM.move_camera(), DISPLAY, player0, tile)
         map.tiles = []
         clock.tick(60)
-        player0.move()
+        player0.move(CAM.offset, CAM)
         tile = player0.getTileBelow()
 
 
@@ -52,7 +52,7 @@ def main() -> None:
                     zoom_hud.m1_click = True
                     clicked_tile = mouse.click.getClickedTile(CAM.offset, CAM.zoom)
                     if clicked_tile != None:
-                        player0.move_direction.y, player0.move_direction.y = 0,0
+                        player0aa.move_direction.y, player0.move_direction.y = 0,0
                         tile = clicked_tile
 
             if event.type == pygame.MOUSEBUTTONUP:

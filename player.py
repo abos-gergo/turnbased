@@ -18,9 +18,7 @@ class Player:
         self.prev_player_type = self.player_types[0]
 
     def getTileBelow(self):
-        for tile in map.dirt_matrix:
-            if tile.x == round(self.x) and tile.y == round(self.y):
-                return tile
+        return map.none_matrix[round(self.y)][round(self.x)]
     
     def get_tile_type(self):
         if self.move_direction.x == 1:
@@ -41,15 +39,11 @@ class Player:
         else:
             return self.prev_player_type
     
-    def move(self):
-        if map.none_matrix[self.getTileBelow().y + int(self.move_direction.y)][self.getTileBelow().x + int(self.move_direction.x)] == None: 
-            self.x -= self.move_speed*self.move_direction.x
-            self.y -= self.move_speed*self.move_direction.y
-
-        if self.move_direction.y != 0:
-            self.render_dir.y = self.move_direction.y
-        if self.move_direction.x != 0:
-            self.render_dir.x = self.move_direction.x
+    def move(self, offset, zoom):
+        if round(self.x + 5*self.move_direction.x*self.move_speed) != self.getTileBelow().x or round(self.y + 5*self.move_direction.y*self.move_speed) != self.getTileBelow().y:
+            if map.none_matrix[round(self.y) + int(self.move_direction.y)][round(self.x) + int(self.move_direction.x)] == None:
+                self.x -= self.move_direction.x*self.move_speed
+                self.y -= self.move_direction.y*self.move_speed
 
         self.x += self.move_direction.x*self.move_speed
         self.y += self.move_direction.y*self.move_speed
