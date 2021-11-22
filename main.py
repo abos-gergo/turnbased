@@ -36,7 +36,7 @@ def main() -> None:
         render.renderTiles(CAM.move_camera(), DISPLAY, player0, tile)
         map.tiles = []
         clock.tick(60)
-        player0.move(CAM.offset, CAM)
+        player0.move()
         tile = player0.getTileBelow()
 
 

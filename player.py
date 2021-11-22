@@ -39,9 +39,9 @@ class Player:
         else:
             return self.prev_player_type
     
-    def move(self, offset, zoom):
+    def move(self):
         if round(self.x + 5*self.move_direction.x*self.move_speed) != self.getTileBelow().x or round(self.y + 5*self.move_direction.y*self.move_speed) != self.getTileBelow().y:
-            if map.none_matrix[round(self.y) + int(self.move_direction.y)][round(self.x) + int(self.move_direction.x)] == None:
+            if map.none_matrix[round(self.y) + int(self.move_direction.y)][round(self.x) + int(self.move_direction.x)] == None or map.enviroment_matrix[round(self.y) + int(self.move_direction.y)][round(self.x) + int(self.move_direction.x)] != None:
                 self.x -= self.move_direction.x*self.move_speed
                 self.y -= self.move_direction.y*self.move_speed
 
