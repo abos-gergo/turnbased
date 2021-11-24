@@ -34,7 +34,7 @@ def main() -> None:
         pygame.mouse.set_visible(False)
         DISPLAY = pygame.Surface((1920 + CAM.zoom[0], 1080 + CAM.zoom[1]))
         DISPLAY.fill((76.4, 107.3, 121.7))
-        collided_tile = engine.collide(player0)
+        collided_tile = engine.collide(player0, enviroment_matrix)
         map.tiles = []
         clock.tick(60)
         player0.move()
@@ -90,8 +90,10 @@ def main() -> None:
                 if event.key == pygame.K_z:
                     CAM.lock = CAM.lock * -1 + 1
 
-                if event.key == pygame.K_f and interactable:
-                    enviroment_matrix[collided_tile[0]][collided_tile[1]] = None
+                if event.key == pygame.K_f:
+                    if interactable:
+                        enviroment_matrix[collided_tile[0]][collided_tile[1]] = None
+                    player0.create_bridge()
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_w:

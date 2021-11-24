@@ -32,11 +32,11 @@ def MoveTowards(start: tuple, target: tuple, speed: float) -> tuple:
     returned: tuple = (dest[0], dest[1])
     return returned
 
-def collide(tile):
+def collide(tile, matrix):
 
     # returns with the coillided tile -> the location of the obj (based on the enviroment_matrix)
 
-    if map.enviroment_matrix[tile.getTileBelow().y + int(tile.look_dir.y)][tile.getTileBelow().x + int(tile.look_dir.x)] != None:
+    if matrix[tile.getTileBelow().y + int(tile.look_dir.y)][tile.getTileBelow().x + int(tile.look_dir.x)] != None:
         return tile.getTileBelow().y + int(tile.look_dir.y), tile.getTileBelow().x + int(tile.look_dir.x)
     return None
 

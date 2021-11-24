@@ -39,6 +39,20 @@ class Tile:
     def get_tile_type(self):
         pass
 
+class Bridge(Tile):
+    def __init__(self, pos: tuple) -> None:
+        super().__init__(pos)
+        self.anchor_y = 0
+        self.tile_type = self.get_tile_type()
+
+    def get_tile_type(self):
+        """
+        Returns the type of the bridge, chosen on random
+        """
+
+        bridge01 = pygame.image.load("Assets/Map/bridge01.png")
+        return bridge01
+
 
 class Dirt(Tile):
     def __init__(self, pos: tuple) -> None:
