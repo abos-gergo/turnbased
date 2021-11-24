@@ -2,7 +2,6 @@ import pygame
 import main
 import mouse
 
-
 class zoom:
     def __init__(self, zoom) -> None:
         self.zoom = zoom
@@ -58,3 +57,17 @@ class zoom:
                            self.circle1_pos, self.size.x/2)
         pygame.draw.circle(display, self.hud_color_bright,
                            self.circle2_pos, self.size.x)
+
+class Button:
+    def __init__(self, player):
+        self.pos = pygame.math.Vector3(player.x, player.y, player.z)
+        self.buttons = {
+            "F": pygame.image.load("Assets/buttons/F.png").convert()
+        }
+        self.buttons["F"].set_colorkey((0, 0,0))
+
+    def display_button(self, display, Pos, collide, enviroment_matrix):
+        pos = Pos
+        if collide != None:
+            display.blit(self.buttons["F"], (pos[0] + self.buttons["F"].get_width()/2, pos[1] - 32))
+

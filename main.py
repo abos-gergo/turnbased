@@ -31,16 +31,17 @@ def main() -> None:
     tile = player0.getTileBelow()
     selected_tile = ""
     while run:
-        pygame.mouse.set_visible            (False)
+        pygame.mouse.set_visible(False)
         DISPLAY = pygame.Surface((1920 + CAM.zoom[0], 1080 + CAM.zoom[1]))
         DISPLAY.fill((76.4, 107.3, 121.7))
-        render.renderTiles(CAM.move_camera(), DISPLAY, player0, tile)
+        collided_tile = engine.collide(player0)
         map.tiles = []
         clock.tick(60)
         player0.move()
-        collided_tile = engine.collide(player0)
+        interactable = False
         if collided_tile is not None:
             tile = none_matrix[collided_tile[0]][collided_tile[1]]
+            interactable = True
 
         if CAM.lock:
             CAM.set_offset_to(player0, DISPLAY)
@@ -89,6 +90,9 @@ def main() -> None:
                 if event.key == pygame.K_z:
                     CAM.lock = CAM.lock * -1 + 1
 
+                if event.key == pygame.K_f and interactable:
+                    enviroment_matrix[collided_tile[0]][collided_tile[1]] = None
+
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_w:
                     player0.move_direction.y = 0
@@ -99,6 +103,7 @@ def main() -> None:
                 if event.key == pygame.K_d:
                     player0.move_direction.x = 0
 
+        render.renderTiles(CAM.move_camera(), DISPLAY, player0, tile, hud.Button(player0), collided_tile)
         WIN.blit(pygame.transform.scale(DISPLAY, (1920, 1080)), (0, 0))
         zoom_hud.draw(WIN, CAM)
         mouse.display_cursor(WIN)
