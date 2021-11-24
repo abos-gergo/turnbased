@@ -1,4 +1,4 @@
-from map import Map
+from map import Map, SCALE, enviroment_matrix, none_matrix
 import hud
 import camera
 import mouse
@@ -6,13 +6,13 @@ import generate_map
 import pygame
 from player import Player
 import render
+import engine
 
 WIN = pygame.display.set_mode((1920, 1080))
 DISPLAY = pygame.Surface((1920, 1080))
 CAM = camera.Camera(30, 10)
-SCALE = 70
 
-player0 = Player(0, 70)
+player0 = Player(0, SCALE)
 
 def main() -> None:
     # WINDOW SETUP ------------------------------------------------------------ WINDOW SETUP
@@ -24,21 +24,26 @@ def main() -> None:
     mapgen.dirt_generation()
     map: Map = Map()
     map.read_tiles(player0)
-    CAM.set_offset_to_middle()
+    CAM.set_offset_to(player0, WIN)
     zoom_hud: hud.zoom = hud.zoom(CAM.zoom)
     clock = pygame.time.Clock() 
     run = True
     tile = player0.getTileBelow()
+    selected_tile = ""
     while run:
-        pygame.mouse.set_visible(False)
+        pygame.mouse.set_visible            (False)
         DISPLAY = pygame.Surface((1920 + CAM.zoom[0], 1080 + CAM.zoom[1]))
         DISPLAY.fill((76.4, 107.3, 121.7))
         render.renderTiles(CAM.move_camera(), DISPLAY, player0, tile)
         map.tiles = []
         clock.tick(60)
         player0.move()
-        tile = player0.getTileBelow()
+        collided_tile = engine.collide(player0)
+        if collided_tile is not None:
+            tile = none_matrix[collided_tile[0]][collided_tile[1]]
 
+        if CAM.lock:
+            CAM.set_offset_to(player0, DISPLAY)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -52,7 +57,7 @@ def main() -> None:
                     zoom_hud.m1_click = True
                     clicked_tile = mouse.click.getClickedTile(CAM.offset, CAM.zoom)
                     if clicked_tile != None:
-                        player0aa.move_direction.y, player0.move_direction.y = 0,0
+                        player0.move_direction.y, player0.move_direction.y = 0,0
                         tile = clicked_tile
 
             if event.type == pygame.MOUSEBUTTONUP:
@@ -63,7 +68,7 @@ def main() -> None:
                 if event.key == pygame.K_ESCAPE:
                     run = False
                 if event.key == pygame.K_SPACE:
-                    CAM.set_offset_to_middle()
+                    CAM.set_offset_to(player0, DISPLAY)
 
                 if event.key == pygame.K_w:
                     player0.move_direction.y = -1
@@ -80,6 +85,9 @@ def main() -> None:
                 if event.key == pygame.K_d:
                     player0.move_direction.x = 1
                     player0.move_direction.y = 0
+
+                if event.key == pygame.K_z:
+                    CAM.lock = CAM.lock * -1 + 1
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_w:

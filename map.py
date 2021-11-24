@@ -2,10 +2,12 @@ from typing import List
 import numpy
 import tiles
 
+SCALE = 80
+
 tile_matrix: List = []
-none_matrix: List[List] = [[None]*70 for i in range(70)]
+none_matrix: List[List] = [[None]*SCALE for i in range(SCALE)]
 dirt_matrix: List[tiles.Dirt] = []
-enviroment_matrix: List[List] = [[None]*70 for i in range(70)]
+enviroment_matrix: List[List] = [[None]*SCALE for i in range(SCALE)]
 
 class Map:
     def read_tiles(self, player0):

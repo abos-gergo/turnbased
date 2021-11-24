@@ -16,6 +16,7 @@ class Player:
         self.teamNumber = teamNumber
         self.middle_offset = 1/self.player_types[0].get_width()*2
         self.prev_player_type = self.player_types[0]
+        self.look_dir = pygame.math.Vector2(0, 1)
 
     def getTileBelow(self):
         return map.none_matrix[round(self.y)][round(self.x)]
@@ -23,18 +24,22 @@ class Player:
     def get_tile_type(self):
         if self.move_direction.x == 1:
             self.prev_player_type = self.player_types[1]
+            self.look_dir.x, self.look_dir.y = 1, 0
             return self.player_types[1]
         
         elif self.move_direction.x == -1:
             self.prev_player_type = self.player_types[2]
+            self.look_dir.x, self.look_dir.y = -1, 0
             return self.player_types[2]
         
         elif self.move_direction.y == 1:
             self.prev_player_type = self.player_types[0]
+            self.look_dir.x, self.look_dir.y = 0, 1
             return self.player_types[0]
         
         elif self.move_direction.y == -1:
             self.prev_player_type = self.player_types[3]
+            self.look_dir.x, self.look_dir.y = 0, -1
             return self.player_types[3]
         else:
             return self.prev_player_type

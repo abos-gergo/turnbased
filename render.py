@@ -13,7 +13,6 @@ def renderTiles(offset, Display, player, clicked_tile):
     
     Display.blit(tiles.TileTypes.outline.convert_alpha(), ((clicked_tile.x) * 32 - (clicked_tile.y) * 32 + offset[0], (clicked_tile.x) * 16 + (clicked_tile.y) * 16 - clicked_tile.z * 32 + offset[1] - clicked_tile.anchor_y))
 
-
     for y, row in enumerate(enviroment_matrix):
         for x, tile in enumerate(row):
             if tile != None:
@@ -27,10 +26,10 @@ def renderTiles(offset, Display, player, clicked_tile):
                         enviroment_matrix[y][x] = None
                         enviroment_matrix[tile.getTileBelow().y][tile.getTileBelow().x] = tile
                         
-                if pos[0] > -64 and pos[0] < Display.get_width() + 64 and pos[1] > -64 and pos[1] < Display.get_height() + 64:
+                if pos[0] > -64*2 and pos[0] < Display.get_width() + 64*2 and pos[1] > -64*2 and pos[1] < Display.get_height() + 64*2:
                     if tile != player:
                         Display.blit(tile.tile_type, pos)
                     else:
                         pos[0] += 0
-                        pos[1] -= 10
+                        pos[1] -= 0
                         Display.blit(tile.get_tile_type(), pos)
