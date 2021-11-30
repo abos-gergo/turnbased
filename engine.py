@@ -43,3 +43,5 @@ def collide(tile, matrix):
 def convertTileToScreenPos(tile, offset: tuple, zoom : List[int]) -> tuple:
     screen_pos = ((tile.x) * 32 - (tile.y) * 32 + offset[0] + 32)*(1920/(1920 + zoom[0])), ((tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1] + 16)*(1080/(1080 + zoom[1]))
     return screen_pos
+            
+

@@ -40,6 +40,24 @@ class Tile:
         pass
 
 class Bridge(Tile):
+    def __init__(self, pos: tuple, ld: pygame.math.Vector2) -> None:
+        super().__init__(pos)
+        self.anchor_y = 0
+        self.tile_type = self.get_tile_type(ld)
+
+    def get_tile_type(self, ld):
+        """
+        Returns the type of the bridge, chosen on random
+        """
+
+        bridge01 = pygame.image.load("Assets/Map/bridge01.png")
+        bridge01_m = pygame.image.load("Assets/Map/bridge01_mirror.png")
+        if ld.x != 0:
+            return bridge01_m
+        if ld.y != 0:
+            return bridge01
+
+class Boss_shard(Tile):
     def __init__(self, pos: tuple) -> None:
         super().__init__(pos)
         self.anchor_y = 0
@@ -50,8 +68,11 @@ class Bridge(Tile):
         Returns the type of the bridge, chosen on random
         """
 
-        bridge01 = pygame.image.load("Assets/Map/bridge01.png")
-        return bridge01
+        boss_shard01 = pygame.image.load('Assets/bosses/shards/boss01_shard.png').convert()
+
+        boss_shard01.set_colorkey((0, 0, 0))
+
+        return boss_shard01
 
 
 class Dirt(Tile):

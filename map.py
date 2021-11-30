@@ -31,8 +31,12 @@ class Map:
                     elif tile == 3:
                         generated_tile = tiles.Rock((x, y, z))
                         tile_matrix.append(generated_tile)
-                        enviroment_matrix[y][x] = generated_tile                        
-
+                        enviroment_matrix[y][x] = generated_tile
+                    elif tile == 4:
+                        generated_tile = tiles.Boss_shard((x, y, z))
+                        tile_matrix.append(generated_tile)
+                        enviroment_matrix[y][x] = generated_tile
+                        
         for tile in tile_matrix:
             if isinstance(tile, tiles.Dirt):
                 tile.neighbors = tile.get_neighbors()

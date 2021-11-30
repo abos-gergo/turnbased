@@ -54,7 +54,8 @@ class Player:
         self.x += self.move_direction.x*self.move_speed
         self.y += self.move_direction.y*self.move_speed
 
-    def create_bridge(self):
+    def create_bridge(self, col_tile):
         if engine.collide(self, map.none_matrix) == None and self.getTileBelow().x + int(self.look_dir.x) < len(map.none_matrix) and self.getTileBelow().y + int(self.look_dir.y) < len(map.none_matrix):
-            map.none_matrix[self.getTileBelow().y + int(self.look_dir.y)][self.getTileBelow().x + int(self.look_dir.x)] = tiles.Bridge((self.getTileBelow().x + int(self.look_dir.x), self.getTileBelow().y + int(self.look_dir.y), 1))
-            map.dirt_matrix.append(tiles.Bridge((self.getTileBelow().x + int(self.look_dir.x), self.getTileBelow().y + int(self.look_dir.y), 1)))
+            map.none_matrix[self.getTileBelow().y + int(self.look_dir.y)][self.getTileBelow().x + int(self.look_dir.x)] = tiles.Bridge((self.getTileBelow().x + int(self.look_dir.x), self.getTileBelow().y + int(self.look_dir.y), 0), self.look_dir)
+            map.dirt_matrix.append(tiles.Bridge((self.getTileBelow().x + int(self.look_dir.x), self.getTileBelow().y + int(self.look_dir.y), 0), self.look_dir))
+

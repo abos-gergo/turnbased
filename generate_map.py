@@ -129,7 +129,9 @@ class generate_map:
             os.remove("Game Files/layer_0.npy")
         numpy.save("Game Files/layer_0", self.level)
 
-        enviroment_level = self.level
+        enviroment_level = self.level.copy()
+        shard_count = 2
+
 
         for y, row in enumerate(enviroment_level):
             for x in range(len(row)):
@@ -138,8 +140,13 @@ class generate_map:
                         enviroment_level[y][x] = 2
                     elif not random.randint(0, 20):
                         enviroment_level[y][x] = 3
+                        if shard_count != 0:
+                            if not random.randint(0, 30):
+                                enviroment_level[y][x] = 4
+                                shard_count -= 1
                     else:
                         enviroment_level[y][x] = 0
+
 
 
         if not os.path.isdir("Game Files"):
