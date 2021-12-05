@@ -1,7 +1,5 @@
 from typing import Any, List
 import pygame
-import map
-import math
 
 
 def tileDistance(tile1: Any, tile2: Any) -> int:

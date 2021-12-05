@@ -1,7 +1,6 @@
 import random
 import numpy
 import os
-import tiles
 
 
 class generate_map:
