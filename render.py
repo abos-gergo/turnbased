@@ -2,7 +2,7 @@ from map import dirt_matrix, enviroment_matrix
 from typing import List
 import tiles
 
-def renderTiles(offset, Display, player, clicked_tile):
+def renderTiles(offset, Display, player, clicked_tile, Button, collide):
     for tile in dirt_matrix:
         pos: List = [
             (tile.x) * 32 - (tile.y) * 32 + offset[0],
@@ -28,8 +28,15 @@ def renderTiles(offset, Display, player, clicked_tile):
                         
                 if pos[0] > -64*2 and pos[0] < Display.get_width() + 64*2 and pos[1] > -64*2 and pos[1] < Display.get_height() + 64*2:
                     if tile != player:
+                        if tile == tiles.Tree:
+                            pos[0] += 64
+                            pos[1] += 64
+
                         Display.blit(tile.tile_type, pos)
                     else:
-                        pos[0] += 0
-                        pos[1] -= 0
                         Display.blit(tile.get_tile_type(), pos)
+
+    Button.display_button(Display, [
+                    (player.x) * 32 - (player.y) * 32 + offset[0],
+                    (player.x) * 16 + (player.y) * 16 - player.z * 32 + offset[1] - player.anchor_y
+                    ], collide, enviroment_matrix)
