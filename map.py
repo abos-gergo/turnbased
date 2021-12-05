@@ -4,9 +4,9 @@ import tiles
 
 SCALE = 80
 
-tile_matrix: List = []
-none_matrix: List[List] = [[None]*SCALE for i in range(SCALE)]
-dirt_matrix: List[tiles.Dirt] = []
+all_tile_list: List = []
+dirt_matrix: List[List] = [[None]*SCALE for i in range(SCALE)]
+dirt_list: List[tiles.Dirt] = []
 enviroment_matrix: List[List] = [[None]*SCALE for i in range(SCALE)]
 
 class Map:
@@ -17,31 +17,36 @@ class Map:
                 for x, tile in enumerate(row):
                     if tile == 1:
                         generated_tile = tiles.Dirt((int(round(float(x))), int(round(float(y))), z))
-                        tile_matrix.append(generated_tile)
-                        dirt_matrix.append(generated_tile)
-                        none_matrix[y][x] = generated_tile
+                        all_tile_list.append(generated_tile)
+                        dirt_list.append(generated_tile)
+                        dirt_matrix[y][x] = generated_tile
                     elif y == player0.y and x == player0.x and z == player0.z:
                         generated_tile = player0
-                        tile_matrix.append(generated_tile)
+                        all_tile_list.append(generated_tile)
                         enviroment_matrix[y][x] = generated_tile
+                        generated_tile.tile_type = generated_tile.get_tile_type().convert()
+                        generated_tile.tile_type.set_colorkey((0, 0, 0))
                     elif tile == 2:
                         generated_tile = tiles.Tree((x, y, z))
-                        tile_matrix.append(generated_tile)
+                        all_tile_list.append(generated_tile)
                         enviroment_matrix[y][x] = generated_tile
+                        generated_tile.tile_type = generated_tile.get_tile_type().convert()
+                        generated_tile.tile_type.set_colorkey((0, 0, 0))
                     elif tile == 3:
                         generated_tile = tiles.Rock((x, y, z))
-                        tile_matrix.append(generated_tile)
+                        all_tile_list.append(generated_tile)
                         enviroment_matrix[y][x] = generated_tile
+                        generated_tile.tile_type = generated_tile.get_tile_type().convert()
+                        generated_tile.tile_type.set_colorkey((0, 0, 0))
                     elif tile == 4:
                         generated_tile = tiles.Boss_shard((x, y, z))
-                        tile_matrix.append(generated_tile)
+                        all_tile_list.append(generated_tile)
                         enviroment_matrix[y][x] = generated_tile
+                        generated_tile.tile_type = generated_tile.get_tile_type().convert()
+                        generated_tile.tile_type.set_colorkey((0, 0, 0))
                         
-        for tile in tile_matrix:
+        for tile in dirt_list:
             if isinstance(tile, tiles.Dirt):
                 tile.neighbors = tile.get_neighbors()
-                tile.tile_type = tile.get_tile_type().convert()
-                tile.tile_type.set_colorkey((0, 0, 0))
-            elif tile:
                 tile.tile_type = tile.get_tile_type().convert()
                 tile.tile_type.set_colorkey((0, 0, 0))

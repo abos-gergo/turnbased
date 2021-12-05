@@ -1,4 +1,4 @@
-from map import Map, SCALE, enviroment_matrix, none_matrix
+from map import Map, SCALE, enviroment_matrix, dirt_matrix
 import hud
 import camera
 import mouse
@@ -40,7 +40,7 @@ def main() -> None:
         player0.move()
         interactable = False
         if collided_tile is not None:
-            tile = none_matrix[collided_tile[0]][collided_tile[1]]
+            tile = dirt_matrix[collided_tile[0]][collided_tile[1]]
             interactable = True
 
         if CAM.lock:

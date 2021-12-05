@@ -1,6 +1,6 @@
 import main
 import pygame
-from map import dirt_matrix
+from map import dirt_list
 import engine
 from typing import List
 import tiles
@@ -14,7 +14,7 @@ class click:
         click_pos = pos()
         highest_z = -1
         clicked_tile: tiles.Dirt = None
-        for tile in dirt_matrix:
+        for tile in dirt_list:
             distx, disty = engine.pixelDistance(
                 engine.convertTileToScreenPos(tile, offset, zoom), click_pos)
             if distx <= 16 * main.WIN.get_width()/(main.WIN.get_width() + zoom[0]) and disty <= 16 * main.WIN.get_width()/(main.WIN.get_width() + zoom[0]):

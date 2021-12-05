@@ -1,9 +1,9 @@
-from map import dirt_matrix, enviroment_matrix
+from map import dirt_list, enviroment_matrix
 from typing import List
 import tiles
 
 def renderTiles(offset, Display, player, clicked_tile, Button, collide):
-    for tile in dirt_matrix:
+    for tile in dirt_list:
         pos: List = [
             (tile.x) * 32 - (tile.y) * 32 + offset[0],
             (tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1] - tile.anchor_y]
