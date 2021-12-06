@@ -19,7 +19,8 @@ def main() -> None:
     pygame.display.set_caption("rendkívül keratív név")
     icon = pygame.image.load('Assets/icon/icon.png')
     pygame.display.set_icon(icon)
-    # MAP GENERATION -------------------------------------------------------- MAP GENERATION
+    pygame.mouse.set_visible(False)
+    # MAP GENERATION --------------------------------------------------------- MAP GENERATION
     mapgen = generate_map.generate_map(SCALE)
     mapgen.dirt_generation()
     map: Map = Map()
@@ -28,19 +29,24 @@ def main() -> None:
     zoom_hud: hud.zoom = hud.zoom(CAM.zoom)
     clock = pygame.time.Clock() 
     run = True
-    tile = player0.getTileBelow()
-    selected_tile = ""
+    tile_in_focus = player0.getTileBelow()
+    max_fps = 0
+    min_fps = 60
     while run:
-        pygame.mouse.set_visible(False)
+        clock.tick(60)
+        fps = clock.get_fps()
+        if fps > max_fps:
+            max_fps = fps
+        if fps < min_fps and fps != 0:
+            min_fps = fps
+
         DISPLAY = pygame.Surface((1920 + CAM.zoom[0], 1080 + CAM.zoom[1]))
         DISPLAY.fill((76.4, 107.3, 121.7))
         collided_tile = engine.collide(player0, enviroment_matrix)
-        map.tiles = []
-        clock.tick(60)
         player0.move()
         interactable = False
         if collided_tile is not None:
-            tile = dirt_matrix[collided_tile[0]][collided_tile[1]]
+            tile_in_focus = dirt_matrix[collided_tile[0]][collided_tile[1]]
             interactable = True
 
         if CAM.lock:
@@ -59,7 +65,7 @@ def main() -> None:
                     clicked_tile = mouse.click.getClickedTile(CAM.offset, CAM.zoom)
                     if clicked_tile != None:
                         player0.move_direction.y, player0.move_direction.y = 0,0
-                        tile = clicked_tile
+                        tile_in_focus = clicked_tile
 
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
@@ -105,11 +111,13 @@ def main() -> None:
                 if event.key == pygame.K_d:
                     player0.move_direction.x = 0
 
-        render.renderTiles(CAM.move_camera(), DISPLAY, player0, tile, hud.Button(player0), collided_tile)
+        render.renderTiles(CAM.move_camera(), DISPLAY, player0, tile_in_focus, hud.Button(player0), collided_tile)
         WIN.blit(pygame.transform.scale(DISPLAY, (1920, 1080)), (0, 0))
-        zoom_hud.draw(WIN, CAM)
         mouse.display_cursor(WIN)
         pygame.display.flip()
+
+    print(f'Max FPS: {max_fps}')
+    print(f'Min FPS: {min_fps}')
 
 
 if __name__ == "__main__":
