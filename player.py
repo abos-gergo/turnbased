@@ -18,6 +18,7 @@ class Player:
         self.middle_offset = 1/self.player_types[0].get_width()*2
         self.prev_player_type = self.player_types[0]
         self.look_dir = pygame.math.Vector2(0, 1)
+        self.way_index: int = 0
 
     def getTileBelow(self):
         return map.none_matrix[round(self.y)][round(self.x)]
@@ -45,14 +46,36 @@ class Player:
         else:
             return self.prev_player_type
     
-    def move(self):
+    def move(self, next_pos: tuple) -> bool or None:
         if round(self.x + 5*self.move_direction.x*self.move_speed) != self.getTileBelow().x or round(self.y + 5*self.move_direction.y*self.move_speed) != self.getTileBelow().y:
             if map.none_matrix[round(self.y) + int(self.move_direction.y)][round(self.x) + int(self.move_direction.x)] == None or map.enviroment_matrix[round(self.y) + int(self.move_direction.y)][round(self.x) + int(self.move_direction.x)] != None:
                 self.x -= self.move_direction.x*self.move_speed
                 self.y -= self.move_direction.y*self.move_speed
 
+        self.move_direction.x, self.move_direction.y = 0, 0
+        if self.getTileBelow().x != next_pos[0]:
+            if self.getTileBelow().x - next_pos[0] < 0:
+                self.move_direction.x = 1
+            else:
+                self.move_direction.x = -1
+        elif self.getTileBelow().y != next_pos[1]:
+            if self.getTileBelow().y - next_pos[1] < 0:
+                self.move_direction.y = 1
+            else:
+                self.move_direction.y = -1
+        else:
+            return True
+
         self.x += self.move_direction.x*self.move_speed
         self.y += self.move_direction.y*self.move_speed
+
+    def move_on_selected_way(self, way: list) -> bool:
+        if len(way) > 0 and self.move((way[self.way_index].x, way[self.way_index].y)):
+            if not (self.way_index >= len(way)-1):
+                self.way_index += 1
+                return False
+            else:
+                return True
 
     def create_bridge(self):
         if engine.collide(self, map.none_matrix) == None and self.getTileBelow().x + int(self.look_dir.x) < len(map.none_matrix) and self.getTileBelow().y + int(self.look_dir.y) < len(map.none_matrix):
