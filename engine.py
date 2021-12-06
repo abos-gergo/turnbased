@@ -1,7 +1,5 @@
 from typing import Any, List
 import pygame
-import map
-import math
 
 
 def tileDistance(tile1: Any, tile2: Any) -> int:
@@ -43,8 +41,3 @@ def collide(tile, matrix):
 def convertTileToScreenPos(tile, offset: tuple, zoom : List[int]) -> tuple:
     screen_pos = ((tile.x) * 32 - (tile.y) * 32 + offset[0] + 32)*(1920/(1920 + zoom[0])), ((tile.x) * 16 + (tile.y) * 16 - tile.z * 32 + offset[1] + 16)*(1080/(1080 + zoom[1]))
     return screen_pos
-
-def possible_tile(tile, clicked) -> bool:
-    if abs(tile.x - clicked.x) <= 1 and abs(tile.y - clicked.y) <= 1:
-        return True
-    return False
