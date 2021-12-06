@@ -51,10 +51,10 @@ def main() -> None:
         if CAM.lock:
             CAM.set_offset_to(player0, DISPLAY)
 
-        if click:
+        if click and select_tiles:
             clicked_tile = mouse.click.getClickedTile(CAM.offset, CAM.zoom)
             if clicked_tile != None:
-                if engine.possible_tile(selected_tiles[-1], clicked_tile):
+                if engine.possible_tile(selected_tiles[-1], clicked_tile) and clicked_tile not in selected_tiles:
                     selected_tiles.append(clicked_tile)
 
         for event in pygame.event.get():
