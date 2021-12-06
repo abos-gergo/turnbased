@@ -12,7 +12,7 @@ enviroment_matrix: List[List] = [[None]*SCALE for i in range(SCALE)]
 class Map:
     def read_tiles(self, player0):
         for z in range(2):
-            map_file = numpy.load(f"Game Files/layer_{z}.npy", 'r', 'bytes')
+            map_file = numpy.load(f"Game Files/test_layer_{z}.npy", 'r', 'bytes')
             for y, row in enumerate(map_file):
                 for x, tile in enumerate(row):
                     if tile == 1:
