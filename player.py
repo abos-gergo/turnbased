@@ -21,7 +21,7 @@ class Player:
         self.way_index: int = 0
 
     def getTileBelow(self):
-        return map.none_matrix[round(self.y)][round(self.x)]
+        return map.dirt_matrix[round(self.y)][round(self.x)]
     
     def get_tile_type(self):
         if self.move_direction.x == 1:
@@ -48,7 +48,7 @@ class Player:
     
     def move(self, next_pos: tuple) -> bool:
         if round(self.x + 5*self.move_direction.x*self.move_speed) != self.getTileBelow().x or round(self.y + 5*self.move_direction.y*self.move_speed) != self.getTileBelow().y:
-            if map.none_matrix[round(self.y) + int(self.move_direction.y)][round(self.x) + int(self.move_direction.x)] == None or map.enviroment_matrix[round(self.y) + int(self.move_direction.y)][round(self.x) + int(self.move_direction.x)] != None:
+            if map.dirt_matrix[round(self.y) + int(self.move_direction.y)][round(self.x) + int(self.move_direction.x)] == None or map.enviroment_matrix[round(self.y) + int(self.move_direction.y)][round(self.x) + int(self.move_direction.x)] != None:
                 self.x -= self.move_direction.x*self.move_speed
                 self.y -= self.move_direction.y*self.move_speed
 
@@ -76,7 +76,7 @@ class Player:
                 
 
     def create_bridge(self):
-        if engine.collide(self, map.none_matrix) == None and self.getTileBelow().x + int(self.look_dir.x) < len(map.none_matrix) and self.getTileBelow().y + int(self.look_dir.y) < len(map.none_matrix):
-            map.none_matrix[self.getTileBelow().y + int(self.look_dir.y)][self.getTileBelow().x + int(self.look_dir.x)] = tiles.Bridge((self.getTileBelow().x + int(self.look_dir.x), self.getTileBelow().y + int(self.look_dir.y), 0), self.look_dir)
-            map.dirt_matrix.append(tiles.Bridge((self.getTileBelow().x + int(self.look_dir.x), self.getTileBelow().y + int(self.look_dir.y), 0), self.look_dir))
+        if engine.collide(self, map.dirt_matrix) == None and self.getTileBelow().x + int(self.look_dir.x) < len(map.dirt_matrix) and self.getTileBelow().y + int(self.look_dir.y) < len(map.dirt_matrix):
+            map.dirt_matrix[self.getTileBelow().y + int(self.look_dir.y)][self.getTileBelow().x + int(self.look_dir.x)] = tiles.Bridge((self.getTileBelow().x + int(self.look_dir.x), self.getTileBelow().y + int(self.look_dir.y), 0), self.look_dir)
+            map.dirt_list.append(tiles.Bridge((self.getTileBelow().x + int(self.look_dir.x), self.getTileBelow().y + int(self.look_dir.y), 0), self.look_dir))
 

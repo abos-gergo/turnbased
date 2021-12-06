@@ -1,7 +1,6 @@
 import random
 import numpy
 import os
-import tiles
 
 
 class generate_map:
@@ -25,7 +24,6 @@ class generate_map:
         '''
         Generetes a row, with a length of the given scale, and returns it as a list
         '''
-
         return [0] * self.scale
 
     def dirt_generation(self) -> None:
